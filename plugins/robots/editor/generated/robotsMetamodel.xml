@@ -14,6 +14,7 @@
 			</enum>
 			<enum name="GuardType">
 				<value>итерация</value>
+				<value></value>
 				<value>меньше 0</value>
 				<value>больше 0</value>
 				<value>равно 0</value>
@@ -48,6 +49,7 @@
 				<value>Сенсор цвета (зеленый)</value>
 				<value>Сенсор цвета (синий)</value>
 				<value>Сенсор цвета (пассивный)</value>
+				<value>Сенсор света</value>
 			</enum>
 		</nonGraphicTypes>
 		<graphicTypes>
@@ -880,7 +882,7 @@
 			<node displayedName="Ждать свет" name="WaitForLight">
 				<graphics>
 					<picture sizex="50" sizey="50">
-						<image y1="0" name="images/trollface.png" x1="0" y2="50" x2="50"/>
+						<image y1="0" name="images/waitForLightSensor.png" x1="0" y2="50" x2="50"/>
 					</picture>
 					<labels>
 						<label x="33" y="60" textBinded="Port"/>

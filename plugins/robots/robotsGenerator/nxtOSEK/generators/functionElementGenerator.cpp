@@ -48,9 +48,11 @@ QByteArray FunctionElementGenerator::replaceSensorVariables(QByteArray portValue
 			|| (portValue == "Сенсор цвета (синий)")
 			|| (portValue == "Сенсор цвета (все цвета)")
 			|| (portValue == "Сенсор цвета (пассивный)")) {
-		return "ecrobot_get_light_sensor(NXT_PORT_S";
+		return "";
 	} else if (portValue == "Ультразвуковой сенсор") {
-			 return "ecrobot_get_sonar_sensor(NXT_PORT_S";
+			return "ecrobot_get_sonar_sensor(NXT_PORT_S";
+	} else if (portValue == "Сенсор света") {
+		return "ecrobot_get_light_sensor(NXT_PORT_S";
 	} else {
 			 return "ecrobot_get_touch_sensor(NXT_PORT_S";
 	}
