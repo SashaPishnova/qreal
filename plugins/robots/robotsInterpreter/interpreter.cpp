@@ -1,5 +1,5 @@
 #include "interpreter.h"
-
+#include <QtCore/QDebug>
 #include "details/autoconfigurer.h"
 #include "details/robotImplementations/unrealRobotModelImplementation.h"
 #include "details/robotCommunication/bluetoothRobotCommunicationThread.h"
@@ -189,7 +189,7 @@ void Interpreter::sensorsConfiguredSlot()
 	mConnected = true;
 	mActionConnectToRobot->setChecked(mConnected);
 
-	resetVariables();
+	//resetVariables();
 
 	mRobotModel->nextBlockAfterInitial(mConnected);
 
@@ -343,6 +343,7 @@ void Interpreter::responseSlot4(int sensorValue)
 
 void Interpreter::updateSensorValues(QString const &sensorVariableName, int sensorValue)
 {
+	qDebug()<<sensorVariableName<<sensorValue;
 	(*(mParser->getVariables()))[sensorVariableName] = utils::Number(sensorValue, utils::Number::intType);
 	Tracer::debug(tracer::autoupdatedSensorValues, "Interpreter::updateSensorValues", sensorVariableName + QString::number(sensorValue));
 }

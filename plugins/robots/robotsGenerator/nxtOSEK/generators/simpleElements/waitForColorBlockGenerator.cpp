@@ -25,7 +25,9 @@ QList<SmartLine> WaitForColorBlockGenerator::convertElementIntoDirectCommand(Nxt
 		, qReal::Id const elementId, qReal::Id const logicElementId)
 {
 	QList<SmartLine> result;
-	int const port = nxtGen->api()->stringProperty(logicElementId, "Port").toInt();
+	Q_UNUSED(elementId)
+	Q_UNUSED(logicElementId)
+	/*int const port = nxtGen->api()->stringProperty(logicElementId, "Port").toInt();
 	QByteArray const colorStr = nxtGen->api()->stringProperty(logicElementId, "Color").toUtf8();
 
 	QString colorNxtType;
@@ -51,7 +53,8 @@ QList<SmartLine> WaitForColorBlockGenerator::convertElementIntoDirectCommand(Nxt
 		result.append(SmartLine("{", elementId));
 		result.append(SmartLine("}", elementId));
 		addInitAndTerminateCode(nxtGen, portStr, colorNxtType, elementId);
-	}
+	}*/
+	nxtGen->errorReporter().addError(QObject::tr("NXTOsek doesn't support color sensor"));
 
 	return result;
 }

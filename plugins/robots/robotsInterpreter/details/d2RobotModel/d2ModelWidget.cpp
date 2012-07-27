@@ -75,6 +75,7 @@ void D2ModelWidget::initWidget()
 	colorNames.push_back("Green");
 	colorNames.push_back("Yellow");
 	colorNames.push_back("Red");
+	colorNames.push_back("White");
 
 	mUi->penColorComboBox->setColorList(colorNames);
 	mUi->penColorComboBox->setColor(QColor("black"));

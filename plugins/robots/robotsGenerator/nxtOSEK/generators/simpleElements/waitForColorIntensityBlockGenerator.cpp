@@ -11,7 +11,9 @@ QList<SmartLine> WaitForColorIntensityBlockGenerator::convertElementIntoDirectCo
 		, qReal::Id const elementId, qReal::Id const logicElementId)
 {
 	QList<SmartLine> result;
-	int const port = nxtGen->api()->stringProperty(logicElementId, "Port").toInt();
+	Q_UNUSED(elementId)
+	Q_UNUSED(logicElementId)
+	/*int const port = nxtGen->api()->stringProperty(logicElementId, "Port").toInt();
 	QString const intensity = nxtGen->api()->stringProperty(logicElementId,  "Intensity");
 	QString const inequalitySign = transformSign(QString(nxtGen->api()->stringProperty(logicElementId
 			, "Sign").toUtf8()));
@@ -21,7 +23,8 @@ QList<SmartLine> WaitForColorIntensityBlockGenerator::convertElementIntoDirectCo
 	result.append(SmartLine("while (!(ecrobot_get_nxtcolorsensor_light(NXT_PORT_S" + QString::number(port)
 			+ ") " + condition + "))", elementId));
 	result.append(SmartLine("{", elementId));
-	result.append(SmartLine("}", elementId));
+	result.append(SmartLine("}", elementId));*/
 
+	nxtGen->errorReporter().addError(QObject::tr("NXTOsek doesn't support color sensor"));
 	return result;
 }

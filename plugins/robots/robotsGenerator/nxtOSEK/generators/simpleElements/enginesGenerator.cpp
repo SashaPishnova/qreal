@@ -12,15 +12,16 @@ void EnginesGenerator::addInitAndTerminateCode(NxtOSEKRobotGenerator *nxtGen  //
 		, qReal::Id const elementId, QString const &enginePort)
 {
 	QString const initTerminateVelocity = "0";
-	QString const initTerminateBrakeMode = "1";
+	QString const initBrakeMode = "1";
+	QString const terminateBrakeMode = "0";
 	QString const initCodeEngines = "nxt_motor_set_speed("
 			+ enginePort + ", "
 			+ initTerminateVelocity + ", "
-			+ initTerminateBrakeMode + ");";
+			+ initBrakeMode + ");";
 	QString const terminateCodeEngines = "nxt_motor_set_speed("
 			+ enginePort + ", "
 			+ initTerminateVelocity + ", "
-			+ initTerminateBrakeMode + ");";
+			+ terminateBrakeMode + ");";
 	if (!ListSmartLine::isContains(nxtGen->initCode(), initCodeEngines)) {
 		nxtGen->initCode().append(SmartLine(initCodeEngines, elementId));
 		nxtGen->terminateCode().append(SmartLine(terminateCodeEngines, elementId));
@@ -35,10 +36,8 @@ QList<SmartLine> EnginesGenerator::convertElementIntoDirectCommand(NxtOSEKRobotG
 	QString brakeMode = nxtGen->api()->stringProperty(logicElementId, "BrakeMode");
 	if (brakeMode.compare("скользить")) {
 		brakeMode = "0";
-	} else if (brakeMode.compare("тормозить")){
-		brakeMode = "1";
 	} else {
-		brakeMode = "ololo-trollolo";
+		brakeMode = "1";
 	}
 
 	QString signRotate = "";

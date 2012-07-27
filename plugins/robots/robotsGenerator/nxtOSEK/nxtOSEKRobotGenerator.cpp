@@ -52,7 +52,7 @@ QString NxtOSEKRobotGenerator::generateVariableString()
 	QString res;
 	foreach (SmartLine const &curVariable, mVariables) {
 		if (!curVariable.text().contains(" ")) {
-			res = res + "static int " + curVariable.text() + ";\n";
+			res = res + "static double " + curVariable.text() + ";\n";
 		}
 	}
 	return "\n" + res;
