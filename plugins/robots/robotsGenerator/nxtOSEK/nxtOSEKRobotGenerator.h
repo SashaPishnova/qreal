@@ -52,11 +52,8 @@ public:
 
 private:
 	void createProjectDir(QString const &projectDir);
-	void insertCode(
-			QString const &resultCode,
-			QString const &resultInitCode,
-			QString const &resultTerminateCode,
-			QString const &curInitialNodeNumber);
+	void insertCode(QString const &resultCode, QString const &resultInitCode, QString const &resultTerminateCode
+			, QString const &curInitialNodeNumber);
 	void deleteResidualLabels(QString const &projectName);
 	void generateMakeFile(bool const &toGenerateIsEmpty, QString const &projectName, QString const &projectDir);
 	void generateFilesForBalancer(QString const &projectDir);

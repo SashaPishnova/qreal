@@ -78,3 +78,11 @@ void BluetoothSensorImplementation::configure()
 	command[6] = mSensorMode;
 	mRobotCommunicationInterface->send(this, command, 5);
 }
+
+void BluetoothSensorImplementation::reconfigure(lowLevelSensorType::SensorTypeEnum mode)
+{
+	mLowLevelSensorType = mode;
+	mIsConfigured = false;
+	mResetDone = false;
+	configure();
+}

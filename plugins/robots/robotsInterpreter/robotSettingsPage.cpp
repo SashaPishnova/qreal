@@ -63,6 +63,7 @@ PreferencesRobotSettingsPage::PreferencesRobotSettingsPage(QWidget *parent)
 			<< tr("Color sensor (green)")
 			<< tr("Color sensor (blue)")
 			<< tr("Color sensor (passive)")
+			<< tr("Light")
 	;
 
 	mUi->port1ComboBox->addItems(sensorNames);
@@ -108,6 +109,7 @@ void PreferencesRobotSettingsPage::changeEvent(QEvent *e)
 				<< tr("Color sensor (green)")
 				<< tr("Color sensor (blue)")
 				<< tr("Color sensor (passive)")
+				<< tr("Light")
 		;
 
 		mUi->port1ComboBox->clear();

@@ -104,12 +104,12 @@ void UsbRobotCommunicationThread::send(QByteArray const &buffer, unsigned const 
 
 		}
 
-		mFantom.nFANTOM100_iNXT_sendDirectCommand(mNXTHandle, true, newBuffer, newBuffer.length(), outputBufferPtr2, responseSize - 3, status);
-
+		mFantom.nFANTOM100_iNXT_sendDirectCommand(mNXTHandle, true, newBuffer, newBuffer.length(), outputBufferPtr2
+				, responseSize - 3, status);
 		outputBuffer[0] = responseSize - 2;
 		outputBuffer[1] = 0;
 		outputBuffer[2] = 2;
-		for (unsigned  i = 0; i < responseSize - 3; i++) {
+		for (unsigned i = 0; i < responseSize - 3; i++) {
 			outputBuffer[i + 3] = outputBufferPtr2[i];
 		}
 		delete outputBufferPtr2;

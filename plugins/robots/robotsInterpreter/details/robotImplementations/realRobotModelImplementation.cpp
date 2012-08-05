@@ -68,8 +68,8 @@ void RealRobotModelImplementation::addColorSensor(inputPort::InputPortEnum const
 
 void RealRobotModelImplementation::addLightSensor(inputPort::InputPortEnum const &port)
 {
-//	sensorImplementations::BluetoothLightSensorImplementation *sensor = new sensorImplementations::BluetoothLightSensorImplementation(mRobotCommunicator, port);
-	//mSensorsConfigurer.configureSensor(sensor, port);
+	sensorImplementations::BluetoothLightSensorImplementation *sensor = new sensorImplementations::BluetoothLightSensorImplementation(mRobotCommunicator, port);
+	mSensorsConfigurer.configureSensor(sensor, port);
 }
 
 void RealRobotModelImplementation::init()
@@ -87,6 +87,9 @@ void RealRobotModelImplementation::stopRobot()
 	for (unsigned i = 0; i < 4; ++i) {
 		if (colorSensor(static_cast<inputPort::InputPortEnum>(i)) != NULL) {
 			colorSensor(static_cast<inputPort::InputPortEnum>(i))->reconfigure(lowLevelSensorType::COLORNONE);
+		}
+		if (lightSensor(static_cast<inputPort::InputPortEnum>(i)) != NULL) {
+			lightSensor(static_cast<inputPort::InputPortEnum>(i))->reconfigure(lowLevelSensorType::LIGHT_INACTIVE);
 		}
 	}
 }

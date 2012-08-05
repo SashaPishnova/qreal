@@ -44,26 +44,34 @@ void WaitForColorIntensityBlock::stop()
 void WaitForColorIntensityBlock::responseSlot(int reading)
 {
 	int const targetIntensity = evaluate("Intensity").toInt();
+	QString signValue = stringProperty("Sign");
+	QString const sign = QString(signValue.toUtf8());
 
-	QString const sign = stringProperty("Sign");
-	if (sign == "равно")
-		if (reading != targetIntensity)
+	if (sign == "равно") {
+		if (reading == targetIntensity) {
 			stop();
-	if (sign == "больше")
-		if (reading <= targetIntensity)
+		}
+	}
+	if (sign == "больше") {
+		if (reading <= targetIntensity) {
 			stop();
-	if (sign == "меньше")
-		if (reading >= targetIntensity)
+		}
+	}
+	if (sign == "меньше") {
+		if (reading >= targetIntensity) {
 			stop();
-	if (sign == "не меньше")
-		if (reading < targetIntensity)
+		}
+	}
+	if (sign == "не меньше") {
+		if (reading < targetIntensity) {
 			stop();
-	if (sign == "не больше")
-		if (reading > targetIntensity)
+		}
+	}
+	if (sign == "не больше") {
+		if (reading > targetIntensity) {
 			stop();
-
-	if (targetIntensity < reading)
-		stop();
+		}
+	}
 }
 
 void WaitForColorIntensityBlock::failureSlot()

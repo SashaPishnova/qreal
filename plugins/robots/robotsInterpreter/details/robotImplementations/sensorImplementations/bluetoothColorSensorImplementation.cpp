@@ -1,5 +1,5 @@
 #include "bluetoothColorSensorImplementation.h"
-
+#include <QtCore/QDebug>
 #include "../../tracer.h"
 
 using namespace qReal::interpreters::robots;
@@ -25,8 +25,9 @@ void BluetoothColorSensorImplementation::read()
 		return;
 	}
 
-	if (mState == pending)
+	if (mState == pending) {
 		return;
+	}
 	mState = pending;
 
 	QByteArray command(5, 0);
@@ -57,12 +58,4 @@ void BluetoothColorSensorImplementation::sensorSpecificProcessResponse(QByteArra
 			emit response((0xff & reading[10]) | ((0xff & reading[11]) << 8));
 		}
 	}
-}
-
-void BluetoothColorSensorImplementation::reconfigure(lowLevelSensorType::SensorTypeEnum mode)
-{
-	mLowLevelSensorType = mode;
-	mIsConfigured = false;
-	mResetDone = false;
-	configure();
 }

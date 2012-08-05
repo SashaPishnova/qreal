@@ -1,5 +1,5 @@
 #include "waitForLightSensorBlock.h"
-
+#include <QtCore/QDebug>
 #include "../../sensorConstants.h"
 
 using namespace qReal;
@@ -38,26 +38,34 @@ void WaitForLightSensorBlock::run()
 void WaitForLightSensorBlock::responseSlot(int reading)
 {
 	int const targetPercents = evaluate("Percents").toInt();
-
-	QString const sign = stringProperty("Sign");
-	if ((sign == "равно") && (reading != targetPercents)) {
-		stop();
+	qDebug() << "WaitForLightSensorBlock::responseSlot" << targetPercents << reading;
+	QString signValue = stringProperty("Sign");
+	QString const sign = QString(signValue.toUtf8());
+	if (sign == "равно") {
+		if (reading == targetPercents) {
+			stop();
+		}
 	}
-	if ((sign == "больше") && (reading <= targetPercents)) {
-		stop();
+	if (sign == "больше") {
+		if (reading <= targetPercents) {
+			stop();
+		}
 	}
-	if ((sign == "меньше") && (reading >= targetPercents)) {
-		stop();
+	if (sign == "меньше") {
+		if (reading >= targetPercents) {
+			stop();
+		}
 	}
-	if ((sign == "не меньше") && (reading < targetPercents)) {
-		stop();
+	if (sign == "не меньше") {
+		if (reading < targetPercents) {
+			stop();
+		}
 	}
-	if ((sign == "не больше") && (reading > targetPercents)) {
-		stop();
+	if (sign == "не больше") {
+		if (reading > targetPercents) {
+			stop();
+		}
 	}
-
-	if (targetPercents < reading)
-		stop();
 }
 
 void WaitForLightSensorBlock::stop()

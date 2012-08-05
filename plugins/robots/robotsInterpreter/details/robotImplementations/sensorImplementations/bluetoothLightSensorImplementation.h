@@ -15,6 +15,9 @@ public:
 	BluetoothLightSensorImplementation(RobotCommunicator *robotCommunicationInterface
 			, inputPort::InputPortEnum const &port);
 	virtual void read();
+
+protected:
+	virtual void sensorSpecificProcessResponse(QByteArray const &reading);
 };
 }
 }

@@ -41,7 +41,9 @@ QList<Block::SensorPortPair> InitialBlockWithPorts::sensorToPair(QString const p
 	if (port1Sensor == QString::fromUtf8("Сенсор цвета (пассивный)")) {
 		result << qMakePair(sensorType::colorNone, static_cast<int>(port));
 	}
-
+	if (port1Sensor == QString::fromUtf8("Сенсор света")) {
+		result << qMakePair(sensorType::light, static_cast<int>(port));
+	}
 	return result;
 }
 

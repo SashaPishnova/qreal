@@ -17,10 +17,11 @@ void BluetoothTouchSensorImplementation::sensorSpecificProcessResponse(QByteArra
 	mState = idle;
 	int sensorValue = (0xff & reading[13]) << 8 | (0xff & reading[14]);
 	Tracer::debug(tracer::sensors, "BluetoothTouchSensorImplementation::sensorSpecificProcessResponse", QString::number(sensorValue));
-	if (reading[4] == 0 && sensorValue < 500)  // Sensor is pressed.
+	if (reading[4] == 0 && sensorValue < 500) { // Sensor is pressed.
 		emit response(1);
-	else
+	} else {
 		emit response(0);
+	}
 }
 
 void BluetoothTouchSensorImplementation::read()
@@ -33,8 +34,9 @@ void BluetoothTouchSensorImplementation::read()
 		return;
 	}
 
-	if (mState == pending)
+	if (mState == pending) {
 		return;
+	}
 
 	mState = pending;
 	QByteArray command(5, 0);

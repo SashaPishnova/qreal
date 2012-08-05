@@ -20,7 +20,6 @@ public:
 			, sensorType::SensorTypeEnum const sensorType
 		);
 	virtual void read();
-	void reconfigure(lowLevelSensorType::SensorTypeEnum mode);
 
 protected:
 	virtual void sensorSpecificProcessResponse(QByteArray const &reading);

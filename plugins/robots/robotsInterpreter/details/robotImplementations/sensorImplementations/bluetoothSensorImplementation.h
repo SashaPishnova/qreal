@@ -25,6 +25,7 @@ public:
 	virtual ~BluetoothSensorImplementation();
 	virtual void configure();
 	virtual void read() = 0;
+	virtual void reconfigure(lowLevelSensorType::SensorTypeEnum mode);
 
 protected slots:
 	void readingDone(QObject *addressee, QByteArray const &reading);
