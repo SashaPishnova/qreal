@@ -48,7 +48,7 @@ void WaitForColorIntensityBlock::responseSlot(int reading)
 	QString const sign = QString(signValue.toUtf8());
 
 	if (sign == "равно") {
-		if (reading == targetIntensity) {
+		if (reading != targetIntensity) {
 			stop();
 		}
 	}

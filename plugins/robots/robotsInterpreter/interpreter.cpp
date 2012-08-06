@@ -1,5 +1,5 @@
 #include "interpreter.h"
-#include <QtCore/QDebug>
+
 #include "details/autoconfigurer.h"
 #include "details/robotImplementations/unrealRobotModelImplementation.h"
 #include "details/robotCommunication/bluetoothRobotCommunicationThread.h"
@@ -114,6 +114,9 @@ void Interpreter::stopRobot()
 
 void Interpreter::showWatchList()
 {
+	if (mWatchListWindow != NULL) {
+		mWatchListWindow->close();
+	}
 	mWatchListWindow = new watchListWindow(mParser);
 	mWatchListWindow->show();
 }
@@ -189,7 +192,7 @@ void Interpreter::sensorsConfiguredSlot()
 	mConnected = true;
 	mActionConnectToRobot->setChecked(mConnected);
 
-	//resetVariables();
+	resetVariables();
 
 	mRobotModel->nextBlockAfterInitial(mConnected);
 
@@ -375,6 +378,7 @@ void Interpreter::disconnectSlot()
 {
 	mActionConnectToRobot->setChecked(false);
 	mConnected = false;
+	stopRobot();
 }
 
 void Interpreter::setRobotModelType(robotModelType::robotModelTypeEnum robotModelType)

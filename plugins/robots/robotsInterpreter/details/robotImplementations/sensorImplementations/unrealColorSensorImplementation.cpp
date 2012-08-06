@@ -1,7 +1,5 @@
 #include "unrealColorSensorImplementation.h"
 
-#include <QtCore/QDebug>
-
 using namespace qReal::interpreters::robots;
 using namespace details::robotImplementations::sensorImplementations;
 

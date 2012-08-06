@@ -81,15 +81,17 @@ void RealRobotModelImplementation::init()
 
 void RealRobotModelImplementation::stopRobot()
 {
-	mMotorA.off();
-	mMotorB.off();
-	mMotorC.off();
-	for (unsigned i = 0; i < 4; ++i) {
-		if (colorSensor(static_cast<inputPort::InputPortEnum>(i)) != NULL) {
-			colorSensor(static_cast<inputPort::InputPortEnum>(i))->reconfigure(lowLevelSensorType::COLORNONE);
-		}
-		if (lightSensor(static_cast<inputPort::InputPortEnum>(i)) != NULL) {
-			lightSensor(static_cast<inputPort::InputPortEnum>(i))->reconfigure(lowLevelSensorType::LIGHT_INACTIVE);
+	if (mIsConnected) {
+		mMotorA.off();
+		mMotorB.off();
+		mMotorC.off();
+		for (unsigned i = 0; i < 4; ++i) {
+			if (colorSensor(static_cast<inputPort::InputPortEnum>(i)) != NULL) {
+				colorSensor(static_cast<inputPort::InputPortEnum>(i))->reconfigure(lowLevelSensorType::COLORNONE);
+			}
+			if (lightSensor(static_cast<inputPort::InputPortEnum>(i)) != NULL) {
+				lightSensor(static_cast<inputPort::InputPortEnum>(i))->reconfigure(lowLevelSensorType::LIGHT_INACTIVE);
+			}
 		}
 	}
 }

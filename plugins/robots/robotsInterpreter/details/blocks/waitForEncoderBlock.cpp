@@ -20,12 +20,13 @@ WaitForEncoderBlock::WaitForEncoderBlock(details::RobotModel * const robotModel)
 void WaitForEncoderBlock::run()
 {
 	QString const port = stringProperty("Port");
-	if (port.trimmed().toUpper() == "A")
+	if (port.trimmed().toUpper() == "A") {
 		mEncoderSensor = &mRobotModel->encoderA();
-	else if (port.trimmed().toUpper() == "B")
+	} else if (port.trimmed().toUpper() == "B") {
 		mEncoderSensor = &mRobotModel->encoderB();
-	else if (port.trimmed().toUpper() == "C")
+	} else if (port.trimmed().toUpper() == "C") {
 		mEncoderSensor = &mRobotModel->encoderC();
+	}
 	if (!mEncoderSensor) {
 		mActiveWaitingTimer.stop();
 		error(tr("Encoder sensor is not configured on this port ")); // поправить имя ошибки
@@ -48,8 +49,9 @@ void WaitForEncoderBlock::stop()
 void WaitForEncoderBlock::responseSlot(int reading)
 {
 	int const tachoLimit = evaluate("TachoLimit").toInt();
-	if (reading >= tachoLimit)
+	if (reading >= tachoLimit) {
 		stop();
+	}
 }
 
 void WaitForEncoderBlock::failureSlot()

@@ -1,5 +1,5 @@
 #include "bluetoothLightSensorImplementation.h"
-#include <QtCore/QDebug>
+
 #include "../../tracer.h"
 
 using namespace qReal::interpreters::robots;
@@ -49,6 +49,6 @@ void BluetoothLightSensorImplementation::sensorSpecificProcessResponse(const QBy
 				+ QString::number((0xff & reading[14])) + " " + QString::number((0xff & reading[15])) + " "
 			);
 		mState = idle;
-		emit response(0xff & reading[14]);
+		emit response((0xff & reading[10]) | ((0xff & reading[11]) << 8));
 	}
 }

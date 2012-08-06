@@ -1,5 +1,5 @@
 #include "waitForSonarDistanceBlock.h"
-#include <QtCore/QDebug>
+
 #include "../../sensorConstants.h"
 
 using namespace qReal;
@@ -47,7 +47,7 @@ void WaitForSonarDistanceBlock::responseSlot(int reading)
 	QString signValue = stringProperty("Sign");
 	QString const sign = QString(signValue.toUtf8());
 	if (sign == "равно") {
-		if (reading == targetDistance) {
+		if (reading != targetDistance) {
 			stop();
 		}
 	}
