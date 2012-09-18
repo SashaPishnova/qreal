@@ -49,7 +49,7 @@ void RobotItem::drawExtractionForItem(QPainter* painter)
 
 QRectF RobotItem::boundingRect() const
 {
-		return mRectangleImpl.boundingRect(mX1, mY1, mX2, mY2, border);
+	return mRectangleImpl.boundingRect(mX1, mY1, mX2, mY2, border);
 }
 
 QRectF RobotItem::calcNecessaryBoundingRect() const
@@ -183,8 +183,9 @@ void RobotItem::setSelected(bool isSelected)
 
 void RobotItem::checkSelection()
 {
-	if(isSelected())
+	if(isSelected()) {
 		mRotater->setVisible(true);
-	else
+	} else {
 		mRotater->setVisible(false);
+	}
 }

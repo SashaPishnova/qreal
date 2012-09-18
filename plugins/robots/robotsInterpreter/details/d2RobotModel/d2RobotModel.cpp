@@ -1,6 +1,6 @@
 #include "d2RobotModel.h"
 #include "../tracer.h"
-
+#include <QtCore/QDebug>
 using namespace qReal::interpreters::robots;
 using namespace details;
 using namespace d2Model;
@@ -20,6 +20,7 @@ D2RobotModel::D2RobotModel(QObject *parent)
 {
 	mAngle = 0;
 	mTimer = new QTimer(this);
+	mTimerActive = mTimer->isActive();
 	connect(mTimer, SIGNAL(timeout()), this, SLOT(nextFragment()));
 	initPosition();
 }
@@ -110,12 +111,12 @@ void D2RobotModel::countMotorTurnover()
 	}
 }
 
-int D2RobotModel::readEncoder(int/*inputPort::InputPortEnum*/ const port) const
+int D2RobotModel::readEncoder(int const port) const
 {
 	return mTurnoverMotors[port] / 360;  // divide the number of degrees by complete revolutions count
 }
 
-void D2RobotModel::resetEncoder(int/*inputPort::InputPortEnum*/ const port)
+void D2RobotModel::resetEncoder(int const port)
 {
 	mTurnoverMotors[port] = 0;
 }
@@ -151,14 +152,10 @@ QPair<QPoint, qreal> D2RobotModel::countPositionAndDirection(inputPort::InputPor
 int D2RobotModel::readTouchSensor(inputPort::InputPortEnum const port)
 {
 	QPair<QPoint, qreal> neededPosDir = countPositionAndDirection(port);
-	bool res = mWorldModel.touchSensorReading(neededPosDir.first, neededPosDir.second, port);
+	bool res = mWorldModel.sensorCollision(neededPosDir.first, neededPosDir.second, port);
 	// TODO: Add checks of sensor type.
 
-	if (res) {
-		return 1;
-	}
-
-	return 0;
+	return res;
 }
 
 int D2RobotModel::readSonarSensor(inputPort::InputPortEnum const port) const
@@ -284,20 +281,29 @@ int D2RobotModel::readColorNoneSensor(QHash<unsigned long, int> countsColor, int
 
 int D2RobotModel::readLightSensor(inputPort::InputPortEnum const port) const
 {
-	Q_UNUSED(port)
+	QPair<QPoint, qreal> neededPosDir = countPositionAndDirection(port);
+	Q_UNUSED(neededPosDir)
 	return 0;
 }
 
 void D2RobotModel::startInit()
 {
 	initPosition();
+}
+
+void D2RobotModel::startInterpretation()
+{
 	mTimer->start(timeInterval);
+	mTimerActive = mTimer->isActive();
+	mD2ModelWidget->hideRotaters();
 }
 
 void D2RobotModel::stopRobot()
 {
 	mMotorB->speed = 0;
 	mMotorC->speed = 0;
+	mTimer->stop();
+	mTimerActive = mTimer->isActive();
 }
 
 void D2RobotModel::countBeep()
@@ -305,8 +311,9 @@ void D2RobotModel::countBeep()
 	if (mBeep.time > 0) {
 		mD2ModelWidget->drawBeep(QColor(Qt::red));
 		mBeep.time -= timeInterval;
-	} else
+	} else {
 		mD2ModelWidget->drawBeep(QColor(Qt::green));
+	}
 }
 
 void D2RobotModel::countNewCoord()
@@ -362,23 +369,54 @@ void D2RobotModel::countNewCoord()
 		mAngle -= 360;
 	}
 
-	QPolygonF const boundingRegion = mD2ModelWidget->robotBoundingPolygon(mPos, mAngle);
-	if (mWorldModel.checkCollision(boundingRegion)) {
+	if (checkCollision()) {
 		mPos = oldPosition;
 		mAngle = oldAngle;
 	}
 }
 
+bool D2RobotModel::checkCollision()
+{
+	QPolygonF const boundingRegion = mD2ModelWidget->robotBoundingPolygon(mPos, mAngle);
+	bool hasCollision = mWorldModel.checkCollision(boundingRegion);
+	/*QVector<SensorItem *> sensors = mD2ModelWidget->sensors();
+	int const numberOfPorts = 4;
+	for (int i = 0; i < numberOfPorts; i++) {
+		inputPort::InputPortEnum port;
+		if (sensors[i]) {
+			switch(i){
+			case 0:
+				port = inputPort::port1;
+				break;
+			case 1:
+				port = inputPort::port2;
+				break;
+			case 2:
+				port = inputPort::port3;
+				break;
+			case 3:
+				port = inputPort::port4;
+				break;
+			}
+			QPair<QPoint, qreal> neededPosDir = countPositionAndDirection(port);
+			bool res = mWorldModel.sensorCollision(neededPosDir.first, neededPosDir.second, port);
+			hasCollision = hasCollision || res;
+		}
+	}*/
+	return hasCollision;
+}
+
 void D2RobotModel::nextFragment()
 {
 	// do nothing until robot gets back on the ground
-	if (!mD2ModelWidget->isRobotOnTheGround())
+	if (!mD2ModelWidget->isRobotOnTheGround()) {
 		return;
+	}
 
 	mPos = mD2ModelWidget->robotPos();
 	countNewCoord();
 	mRotatePoint = rotatePoint;
-	mD2ModelWidget->draw(mPos, mAngle, mRotatePoint);
+	mD2ModelWidget->draw(mPos, mAngle, mRotatePoint, mTimerActive);
 	countBeep();
 	countMotorTime();
 	countMotorTurnover();
@@ -393,10 +431,11 @@ void D2RobotModel::rotateOn(double angle)
 {
 	mPos = mD2ModelWidget ? mD2ModelWidget->robotPos() : QPointF(0, 0);
 	mRotatePoint = rotatePoint;
-	if(angle > 360)
+	if(angle > 360) {
 		angle -= 360;
+	}
 	mAngle += angle;
-	mD2ModelWidget->draw(mPos, mAngle, mRotatePoint);
+	mD2ModelWidget->draw(mPos, mAngle, mRotatePoint, mTimerActive);
 }
 
 double D2RobotModel::rotateAngle() const

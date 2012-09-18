@@ -131,6 +131,8 @@ QColor SensorItem::color() const
 		return Qt::blue;
 	case sensorType::sonar:
 		return Qt::red;
+	case sensorType::light:
+		return Qt::magenta;
 	default:
 		Q_ASSERT(!"Unknown sensor type");
 		return Qt::black;

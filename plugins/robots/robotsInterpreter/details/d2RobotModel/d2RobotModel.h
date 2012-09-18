@@ -24,6 +24,7 @@ public:
 	~D2RobotModel();
 	virtual void clear();
 	void startInit();
+	void startInterpretation();
 	void stopRobot();
 	void setBeep(unsigned freq, unsigned time);
 	void setNewMotor(int speed, long unsigned int degrees, int const port);
@@ -100,6 +101,10 @@ private:
 	int readColorFullSensor(QHash<unsigned long, int> countsColor) const;
 	int readColorNoneSensor(QHash<unsigned long, int> countsColor, int n) const;
 	int readSingleColorSensor(unsigned long color, QHash<unsigned long, int> countsColor, int n) const;
+
+	bool checkCollision();
+
+	bool mTimerActive;
 };
 
 }

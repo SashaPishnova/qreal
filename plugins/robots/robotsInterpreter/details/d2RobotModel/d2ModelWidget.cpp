@@ -1,6 +1,6 @@
 #include "d2ModelWidget.h"
 #include "ui_d2Form.h"
-
+#include <QtCore/QDebug>
 #include <QtGui/QFileDialog>
 #include <QtGui/QRegion>
 #include <QtCore/qmath.h>
@@ -168,6 +168,8 @@ void D2ModelWidget::drawInitialRobot()
 	mRobot->setRobotModel(mRobotModel);
 
 	mUi->graphicsView->centerOn(mRobot);
+
+	hideRotaters();
 }
 
 QPointF D2ModelWidget::robotPos() const
@@ -211,7 +213,7 @@ bool D2ModelWidget::isRobotOnTheGround()
 	return mRobot ? mRobot->isOnTheGround() : false;
 }
 
-void D2ModelWidget::draw(QPointF newCoord, qreal angle, QPointF dPoint)
+void D2ModelWidget::draw(QPointF newCoord, qreal angle, QPointF dPoint, bool timerActive)
 {
 	mAngleOld = angle;
 	mRotatePointOld = dPoint;
@@ -235,10 +237,10 @@ void D2ModelWidget::draw(QPointF newCoord, qreal angle, QPointF dPoint)
 		mDrawCyclesCount = 0;
 	}
 
-	QRectF const viewPortRect = mUi->graphicsView->mapToScene(mUi->graphicsView->viewport()->rect()).boundingRect();
-	if (!viewPortRect.contains(mRobot->sceneBoundingRect().toRect())) {
-		QRectF const requiredViewPort = viewPortRect.translated(mRobot->scenePos() - viewPortRect.center());
-		mScene->setSceneRect(mScene->itemsBoundingRect().united(requiredViewPort));
+	/*QRectF const viewPortRect = mUi->graphicsView->mapToScene(mUi->graphicsView->viewport()->rect()).boundingRect();
+	QRectF const requiredViewPort = viewPortRect.translated(mRobot->scenePos() - viewPortRect.center());
+	mScene->setSceneRect(mScene->itemsBoundingRect().united(requiredViewPort));*/
+	if (timerActive) {
 		mUi->graphicsView->centerOn(mRobot);
 	}
 }
@@ -364,20 +366,21 @@ void D2ModelWidget::addPort(int const port)
 	case 3:
 		mCurrentSensorType = sensorType::sonar;
 		break;
-
+	case 4:
+		mCurrentSensorType = sensorType::light;
+		break;
 	}
 	QPointF newpos = mRobot->mapFromScene(mRobot->boundingRect().center());
 	mRobotModel->configuration().setSensor(mCurrentPort, mCurrentSensorType, newpos.toPoint(), 0);
 	reinitSensor(mCurrentPort);
 
 	resetButtons();
-
 }
 
 void D2ModelWidget::reshapeWall(QGraphicsSceneMouseEvent *event)
 {
 	QPointF const pos = event->scenePos();
-	if (mCurrentWall != NULL) {
+	if (mCurrentWall) {
 		mCurrentWall->setX2andY2(pos.x(), pos.y());
 		if (event->modifiers() & Qt::ShiftModifier)
 			mCurrentWall->reshapeRectWithShift();
@@ -387,7 +390,7 @@ void D2ModelWidget::reshapeWall(QGraphicsSceneMouseEvent *event)
 void D2ModelWidget::reshapeLine(QGraphicsSceneMouseEvent *event)
 {
 	QPointF const pos = event->scenePos();
-	if (mCurrentLine != NULL) {
+	if (mCurrentLine) {
 		mCurrentLine->setX2andY2(pos.x(), pos.y());
 		if (event->modifiers() & Qt::ShiftModifier)
 			mCurrentLine->reshapeRectWithShift();
@@ -397,7 +400,7 @@ void D2ModelWidget::reshapeLine(QGraphicsSceneMouseEvent *event)
 void D2ModelWidget::reshapeStylus(QGraphicsSceneMouseEvent *event)
 {
 	QPointF const pos = event->scenePos();
-	if (mCurrentStylus != NULL) {
+	if (mCurrentStylus) {
 		mCurrentStylus->addLine(pos.x(), pos.y());
 	}
 }
@@ -406,7 +409,7 @@ void D2ModelWidget::mouseClicked(QGraphicsSceneMouseEvent *mouseEvent)
 {
 	mRobot->checkSelection();
 	foreach (SensorItem *sensor, mSensors) {
-		if (sensor != NULL) {
+		if (sensor) {
 			sensor->checkSelection();
 		}
 	}
@@ -424,7 +427,7 @@ void D2ModelWidget::mouseClicked(QGraphicsSceneMouseEvent *mouseEvent)
 	case drawingAction::line: {
 		mCurrentLine = new LineItem(position, position);
 		mCurrentLine->setPenBrush(mScene->penStyleItems(), mScene->penWidthItems(), mScene->penColorItems()
-								  , mScene->brushStyleItems(), mScene->brushColorItems());
+								 , mScene->brushStyleItems(), mScene->brushColorItems());
 		mScene->removeMoveFlag(mouseEvent, mCurrentLine);
 		mWorldModel->addColorField(mCurrentLine);
 		mMouseClicksCount++;
@@ -456,7 +459,7 @@ void D2ModelWidget::mouseMoved(QGraphicsSceneMouseEvent *mouseEvent)
 {
 	mRobot->checkSelection();
 	foreach (SensorItem *sensor, mSensors) {
-		if (sensor != NULL) {
+		if (sensor) {
 			sensor->checkSelection();
 		}
 	}
@@ -483,7 +486,7 @@ void D2ModelWidget::mouseReleased(QGraphicsSceneMouseEvent *mouseEvent)
 {
 	mRobot->checkSelection();
 	foreach (SensorItem *sensor, mSensors) {
-		if (sensor != NULL) {
+		if (sensor) {
 			sensor->checkSelection();
 		}
 	}
@@ -647,10 +650,11 @@ QList<AbstractItem *> D2ModelWidget::selectedColorItems()
 	QList<QGraphicsItem *> listSelectedItems = mScene->selectedItems();
 	foreach (QGraphicsItem *graphicsItem, listSelectedItems) {
 		AbstractItem* item = dynamic_cast<AbstractItem*>(graphicsItem);
-		if (item != NULL) {
+		if (item) {
 			//теперь надо исключить еще те объекты, которым не надо менять цвет и т.д., а т.е. робота, сенсоры, стены и ротатеры
-			if (isColorItem(item))
+			if (isColorItem(item)) {
 				resList.push_back(item);
+			}
 		}
 	}
 	qSort(resList.begin(), resList.end(), mScene->compareItems);
@@ -745,4 +749,18 @@ void D2ModelWidget::closeEvent(QCloseEvent *event)
 {
 	Q_UNUSED(event)
 	emit d2WasClosed();
+}
+
+QVector<SensorItem *> D2ModelWidget::sensors()
+{
+	return mSensors;
+}
+
+void D2ModelWidget::hideRotaters()
+{
+	foreach (Rotater *rotater, mSensorRotaters){
+		if (rotater) {
+			rotater->setVisible(false);
+		}
+	}
 }

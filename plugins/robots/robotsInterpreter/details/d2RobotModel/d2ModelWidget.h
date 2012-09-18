@@ -45,7 +45,7 @@ public:
 	~D2ModelWidget();
 	void init(bool isActive = true);
 	void close();
-	void draw(QPointF newCoord, qreal angle, QPointF dPoint);
+	void draw(QPointF newCoord, qreal angle, QPointF dPoint, bool timerActive);
 	void drawBeep(QColor const &color);
 	QPolygonF const robotBoundingPolygon(QPointF const &coord, qreal const &angle) const;
 
@@ -68,6 +68,8 @@ public:
 
 	void closeEvent(QCloseEvent *event);
 
+	QVector<SensorItem *> sensors();
+	void hideRotaters();
 public slots:
 	void update();
 
@@ -131,8 +133,8 @@ private:
 	void reshapeLine(QGraphicsSceneMouseEvent *event);
 	void reshapeStylus(QGraphicsSceneMouseEvent *event);
 
-		void setValuePenColorComboBox(QColor penColor);
-		void setValuePenWidthSpinBox(int width);
+	void setValuePenColorComboBox(QColor penColor);
+	void setValuePenWidthSpinBox(int width);
 	void setItemPalette(QPen const &penItem, QBrush const &brushItem);
 	void setNoPalette();
 

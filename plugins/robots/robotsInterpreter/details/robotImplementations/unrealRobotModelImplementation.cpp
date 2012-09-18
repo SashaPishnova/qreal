@@ -144,5 +144,5 @@ sensorImplementations::UnrealEncoderImplementation &UnrealRobotModelImplementati
 void UnrealRobotModelImplementation::startInterpretation()
 {
 	mD2Model->showModelWidget();
-	mD2Model->startInit();
+	mD2Model->startInterpretation();
 }

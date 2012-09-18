@@ -63,7 +63,8 @@ void UsbRobotCommunicationThread::send(QObject *addressee
 	QByteArray outputBuffer;
 	outputBuffer.resize(responseSize);
 	send(buffer, responseSize, outputBuffer);
-	if (buffer[2] != 0) {
+	int const commandType = 2;
+	if (buffer[commandType] != 0) {
 		emit response(addressee, QByteArray());
 	} else {
 		emit response(addressee, outputBuffer);
