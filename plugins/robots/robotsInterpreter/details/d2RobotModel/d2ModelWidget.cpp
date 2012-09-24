@@ -34,6 +34,7 @@ D2ModelWidget::D2ModelWidget(RobotModelInterface *robotModel, WorldModel *worldM
 		, mCurrentSensorType(sensorType::unused)
 		, mButtonsCount(8) // magic numbers are baaad, mkay?
 		, mWidth(15)
+		, mIsWallItem(false)
 {
 	setWindowIcon(QIcon(":/icons/kcron.png"));
 
@@ -124,8 +125,6 @@ void D2ModelWidget::changeSpeed(int curIndex)
 		mRobotModel->speed(1);
 	}
 }
-
-
 
 void D2ModelWidget::init(bool isActive)
 {
@@ -274,17 +273,36 @@ QPolygonF const D2ModelWidget::robotBoundingPolygon(QPointF const &coord, qreal 
 
 void D2ModelWidget::addWall(bool on)
 {
+	mUi->lineButton->setChecked(false);
+	mUi->stylusButton->setChecked(false);
 	if (!on) {
 		mDrawingAction = drawingAction::none;
 		mMouseClicksCount = 0;
 		return;
 	}
 
+	mIsWallItem = true;
 	mDrawingAction = drawingAction::wall;
+}
+
+
+void D2ModelWidget::deactivateWallButton()
+{
+	mIsWallItem = false;
+	mUi->wallButton->setChecked(false);
+}
+
+void D2ModelWidget::deactivateAllButtons()
+{
+	deactivateWallButton();
+	mUi->lineButton->setChecked(false);
+	mUi->stylusButton->setChecked(false);
 }
 
 void D2ModelWidget::addLine(bool on)
 {
+	deactivateWallButton();
+	mUi->stylusButton->setChecked(false);
 	if (!on) {
 		mDrawingAction = drawingAction::none;
 		mMouseClicksCount = 0;
@@ -296,6 +314,8 @@ void D2ModelWidget::addLine(bool on)
 
 void D2ModelWidget::addStylus(bool on)
 {
+	deactivateWallButton();
+	mUi->lineButton->setChecked(false);
 	if (!on) {
 		mDrawingAction = drawingAction::none;
 		mMouseClicksCount = 0;
@@ -317,6 +337,7 @@ void D2ModelWidget::clearScene()
 	mUi->port2Box->setCurrentIndex(noneSensorIndex);
 	mUi->port3Box->setCurrentIndex(noneSensorIndex);
 	mUi->port4Box->setCurrentIndex(noneSensorIndex);
+	deactivateAllButtons();
 	mRobotModel->clear();
 	mScene->clear();
 	mRobotPath.clear();
@@ -332,9 +353,9 @@ void D2ModelWidget::resetButtons()
 	mDrawingAction = drawingAction::none;
 }
 
-QComboBox *D2ModelWidget::currentComboBox()
+QComboBox *D2ModelWidget::currentComboBox(inputPort::InputPortEnum port)
 {
-	switch (mCurrentPort){
+	switch (port){
 	case inputPort::port1:
 		return mUi->port1Box;
 	case inputPort::port2:
@@ -353,7 +374,7 @@ void D2ModelWidget::addPort(int const port)
 {
 	mCurrentPort = static_cast<inputPort::InputPortEnum>(port);
 
-	switch (currentComboBox()->currentIndex()){
+	switch (currentComboBox(mCurrentPort)->currentIndex()){
 	case 0:
 		mCurrentSensorType = sensorType::unused;
 		break;
@@ -382,8 +403,9 @@ void D2ModelWidget::reshapeWall(QGraphicsSceneMouseEvent *event)
 	QPointF const pos = event->scenePos();
 	if (mCurrentWall) {
 		mCurrentWall->setX2andY2(pos.x(), pos.y());
-		if (event->modifiers() & Qt::ShiftModifier)
+		if (event->modifiers() & Qt::ShiftModifier) {
 			mCurrentWall->reshapeRectWithShift();
+		}
 	}
 }
 
@@ -421,13 +443,14 @@ void D2ModelWidget::mouseClicked(QGraphicsSceneMouseEvent *mouseEvent)
 		mCurrentWall = new WallItem(position, position);
 		mScene->removeMoveFlag(mouseEvent, mCurrentWall);
 		mWorldModel->addWall(mCurrentWall);
+		mIsWallItem = true;
 		mMouseClicksCount++;
 	}
 		break;
 	case drawingAction::line: {
 		mCurrentLine = new LineItem(position, position);
 		mCurrentLine->setPenBrush(mScene->penStyleItems(), mScene->penWidthItems(), mScene->penColorItems()
-								 , mScene->brushStyleItems(), mScene->brushColorItems());
+				, mScene->brushStyleItems(), mScene->brushColorItems());
 		mScene->removeMoveFlag(mouseEvent, mCurrentLine);
 		mWorldModel->addColorField(mCurrentLine);
 		mMouseClicksCount++;
@@ -436,7 +459,7 @@ void D2ModelWidget::mouseClicked(QGraphicsSceneMouseEvent *mouseEvent)
 	case drawingAction::stylus: {
 		mCurrentStylus = new StylusItem(position.x(), position.y());
 		mCurrentStylus->setPenBrush(mScene->penStyleItems(), mScene->penWidthItems(), mScene->penColorItems()
-									, mScene->brushStyleItems(), mScene->brushColorItems());
+				, mScene->brushStyleItems(), mScene->brushColorItems());
 		mScene->removeMoveFlag(mouseEvent, mCurrentStylus);
 		mWorldModel->addColorField(mCurrentStylus);
 		mMouseClicksCount++;
@@ -445,6 +468,7 @@ void D2ModelWidget::mouseClicked(QGraphicsSceneMouseEvent *mouseEvent)
 
 	case drawingAction::none: {
 		mMouseClicksCount = 0;
+		deactivateWallButton();
 		mScene->forPressResize(mouseEvent);
 	}
 		break;
@@ -498,7 +522,12 @@ void D2ModelWidget::mouseReleased(QGraphicsSceneMouseEvent *mouseEvent)
 		reshapeWall(mouseEvent);
 		mCurrentWall = NULL;
 		mMouseClicksCount = 0;
-		mDrawingAction = drawingAction::none;
+		if (mIsWallItem) {
+			mDrawingAction = drawingAction::wall;
+		} else {
+			mDrawingAction = drawingAction::none;
+			mUi->wallButton->setChecked(mIsWallItem);
+		}
 	}
 		break;
 	case drawingAction::line: {
@@ -506,6 +535,8 @@ void D2ModelWidget::mouseReleased(QGraphicsSceneMouseEvent *mouseEvent)
 		mCurrentLine = NULL;
 		mMouseClicksCount = 0;
 		mDrawingAction = drawingAction::none;
+		deactivateWallButton();
+
 	}
 		break;
 	case drawingAction::stylus: {
@@ -513,13 +544,14 @@ void D2ModelWidget::mouseReleased(QGraphicsSceneMouseEvent *mouseEvent)
 		mCurrentStylus = NULL;
 		mMouseClicksCount = 0;
 		mDrawingAction = drawingAction::none;
+		deactivateWallButton();
 	}
 		break;
 	default:
 		mScene->forReleaseResize(mouseEvent);
 		break;
 	}
-	mUi->wallButton->setChecked(false);
+	mUi->wallButton->setChecked(mIsWallItem);
 	mUi->lineButton->setChecked(false);
 	mUi->stylusButton->setChecked(false);
 	mScene->setMoveFlag(mouseEvent);
@@ -530,8 +562,9 @@ void D2ModelWidget::saveWorldModel()
 {
 	// Saves world and robot models simultaneously, for now.
 	QString const saveFileName = QFileDialog::getSaveFileName(this, tr("Saving world and robot model"), ".", tr("2D model saves (*.xml)"));
-	if (saveFileName.isEmpty())
+	if (saveFileName.isEmpty()) {
 		return;
+	}
 
 	QDomDocument save;
 	QDomElement root = save.createElement("root");
@@ -594,6 +627,12 @@ void D2ModelWidget::removeSensor(inputPort::InputPortEnum port)
 	}
 }
 
+void D2ModelWidget::removeSensorFromComboBox(inputPort::InputPortEnum port)
+{
+	int const noneSensorIndex = 0;
+	currentComboBox(port)->setCurrentIndex(noneSensorIndex);
+}
+
 void D2ModelWidget::reinitSensor(inputPort::InputPortEnum port)
 {
 	removeSensor(port);
@@ -624,14 +663,29 @@ void D2ModelWidget::reinitSensor(inputPort::InputPortEnum port)
 
 void D2ModelWidget::deleteItem(QGraphicsItem *item)
 {
-	SensorItem * const sensor = dynamic_cast<SensorItem *>(item);
-	if (!sensor) {
+	RobotItem * const robot = dynamic_cast<RobotItem *>(item);
+	if (robot) {
 		return;
 	}
 
-	int const port = mSensors.indexOf(sensor);
-	if (port != -1) {
-		removeSensor(static_cast<inputPort::InputPortEnum>(port));
+	SensorItem * const sensor = dynamic_cast<SensorItem *>(item);
+	if (sensor) {
+		int const port = mSensors.indexOf(sensor);
+		if (port != -1) {
+			removeSensor(static_cast<inputPort::InputPortEnum>(port));
+			removeSensorFromComboBox(static_cast<inputPort::InputPortEnum>(port));
+		}
+	} else {
+		mScene->removeItem(item);
+		WallItem * const wall = dynamic_cast<WallItem *>(item);
+		ColorFieldItem * const colorField = dynamic_cast<ColorFieldItem *>(item);
+		if (wall) {
+			mWorldModel->deleteWall(wall);
+		} else {
+			if (colorField) {
+				mWorldModel->deleteColorFieldItem(colorField);
+			}
+		}
 	}
 }
 
@@ -687,8 +741,7 @@ void D2ModelWidget::changePalette()
 		if (listSelectedItems.isEmpty()) {
 			setNoPalette();
 			mScene->setEmptyPenBrushItems();
-		}
-		else {
+		} else {
 			AbstractItem* item = dynamic_cast<AbstractItem*>(listSelectedItems.back());
 			if (isColorItem(item)) {
 				QPen penItem = item->pen();

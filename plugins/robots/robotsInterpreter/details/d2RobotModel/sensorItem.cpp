@@ -179,8 +179,9 @@ void SensorItem::setRotater(Rotater *rotater)
 
 void SensorItem::checkSelection()
 {
-	if(isSelected())
+	if(isSelected()) {
 		mRotater->setVisible(true);
-	else
+	} else {
 		mRotater->setVisible(false);
+	}
 }

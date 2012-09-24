@@ -33,6 +33,8 @@ public:
 	void addWall(WallItem* wall);
 	void addColorField(ColorFieldItem* colorField);
 	void clearScene();
+	void deleteWall(WallItem *wall);
+	void deleteColorFieldItem(ColorFieldItem *colorField);
 
 	QDomElement serialize(QDomDocument &document, QPoint const &topLeftPicture) const;
 	void deserialize(QDomElement const &element);

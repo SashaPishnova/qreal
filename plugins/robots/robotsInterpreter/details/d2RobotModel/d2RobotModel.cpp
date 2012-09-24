@@ -151,45 +151,54 @@ QPair<QPoint, qreal> D2RobotModel::countPositionAndDirection(inputPort::InputPor
 
 int D2RobotModel::readTouchSensor(inputPort::InputPortEnum const port)
 {
-	QPair<QPoint, qreal> neededPosDir = countPositionAndDirection(port);
-	bool res = mWorldModel.sensorCollision(neededPosDir.first, neededPosDir.second, port);
-	// TODO: Add checks of sensor type.
-
+	bool res = false;
+	if (sensorExist(port)) {
+		QPair<QPoint, qreal> neededPosDir = countPositionAndDirection(port);
+		res = mWorldModel.sensorCollision(neededPosDir.first, neededPosDir.second, port);
+		// TODO: Add checks of sensor type.
+	}
 	return res;
 }
 
-int D2RobotModel::readSonarSensor(inputPort::InputPortEnum const port) const
+int D2RobotModel::readSonarSensor(inputPort::InputPortEnum const port)
 {
-	QPair<QPoint, qreal> neededPosDir = countPositionAndDirection(port);
-	return mWorldModel.sonarReading(neededPosDir.first, neededPosDir.second);
+	int distance = 255;
+	if (sensorExist(port)) {
+		QPair<QPoint, qreal> neededPosDir = countPositionAndDirection(port);
+		distance = mWorldModel.sonarReading(neededPosDir.first, neededPosDir.second);
+	}
+	return distance;
 }
 
-int D2RobotModel::readColorSensor(inputPort::InputPortEnum const port) const
+int D2RobotModel::readColorSensor(inputPort::InputPortEnum const port)
 {
-	QImage image = printColorSensor(port);
-	QHash<unsigned long, int> countsColor;
+	if (sensorExist(port)) {
+		QImage image = printColorSensor(port);
+		QHash<unsigned long, int> countsColor;
 
-	unsigned long* data = (unsigned long*) image.bits();
-	int n = image.numBytes() / 4;
-	for (int i = 0; i < n; ++i) {
-		unsigned long color = data[i];
-		countsColor[color] ++;
-	}
+		unsigned long* data = (unsigned long*) image.bits();
+		int n = image.numBytes() / 4;
+		for (int i = 0; i < n; ++i) {
+			unsigned long color = data[i];
+			countsColor[color] ++;
+		}
 
-	switch (mSensorsConfiguration.type(port)) {
-	case (sensorType::colorFull):
-		return readColorFullSensor(countsColor);
-	case (sensorType::colorNone):
-		return readColorNoneSensor(countsColor, n);
-	case (sensorType::colorRed):
-		return readSingleColorSensor(red, countsColor, n);
-	case (sensorType::colorGreen):
-		return readSingleColorSensor(green, countsColor, n);
-	case (sensorType::colorBlue):
-		return readSingleColorSensor(blue, countsColor, n);
-	default:
-		return 0;
+		switch (mSensorsConfiguration.type(port)) {
+		case (sensorType::colorFull):
+			return readColorFullSensor(countsColor);
+		case (sensorType::colorNone):
+			return readColorNoneSensor(countsColor, n);
+		case (sensorType::colorRed):
+			return readSingleColorSensor(red, countsColor, n);
+		case (sensorType::colorGreen):
+			return readSingleColorSensor(green, countsColor, n);
+		case (sensorType::colorBlue):
+			return readSingleColorSensor(blue, countsColor, n);
+		default:
+			return 0;
+		}
 	}
+	return 0;
 }
 
 QImage D2RobotModel::printColorSensor(inputPort::InputPortEnum const port) const
@@ -451,4 +460,10 @@ void D2RobotModel::speed(qreal speedMul)
 QPointF D2RobotModel::robotPos()
 {
 	return this->mPos;
+}
+
+bool D2RobotModel::sensorExist(inputPort::InputPortEnum port)
+{
+	QVector<SensorItem *> sensors = mD2ModelWidget->sensors();
+	return (sensors[port]);
 }

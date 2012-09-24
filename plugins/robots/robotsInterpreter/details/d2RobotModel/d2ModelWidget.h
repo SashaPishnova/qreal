@@ -115,13 +115,14 @@ private:
 	void setActiveButton(int active);
 
 	/** @brief Get QComboBox that sets current sensor's type */
-	QComboBox *currentComboBox();
+	QComboBox *currentComboBox(inputPort::InputPortEnum port);
 
 	/** @brief Get QPushButton for current sensor */
 	QPushButton *currentPortButton();
 
 	/** Deletes sensor for given port and removes it from scene and the robot */
 	void removeSensor(inputPort::InputPortEnum port);
+	void removeSensorFromComboBox(inputPort::InputPortEnum port);
 
 	/// Adds sensor to a scene and a robot
 	void addSensor(inputPort::InputPortEnum port, sensorType::SensorTypeEnum type);
@@ -141,6 +142,9 @@ private:
 	void initWidget();
 	QList<graphicsUtils::AbstractItem *> selectedColorItems();
 	bool isColorItem(graphicsUtils::AbstractItem *item);
+
+	void deactivateWallButton();
+	void deactivateAllButtons();
 
 	Ui::D2Form *mUi;
 	D2ModelScene *mScene;
@@ -201,6 +205,8 @@ private:
 	QVector<Rotater *> mSensorRotaters;
 
 	int mWidth;
+
+	bool mIsWallItem;
 
 };
 

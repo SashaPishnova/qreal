@@ -173,3 +173,13 @@ void WorldModel::deserialize(QDomElement const &element)
 		}
 	}
 }
+
+void WorldModel::deleteWall(WallItem *wall)
+{
+	mWalls.removeOne(wall);
+}
+
+void WorldModel::deleteColorFieldItem(ColorFieldItem *colorField)
+{
+	mColorFields.removeOne(colorField);
+}

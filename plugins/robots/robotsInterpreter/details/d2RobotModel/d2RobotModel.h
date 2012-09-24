@@ -35,8 +35,8 @@ public:
 	void resetEncoder(int const port);
 
 	int readTouchSensor(inputPort::InputPortEnum const port);
-	int readSonarSensor(inputPort::InputPortEnum const port) const;
-	int readColorSensor(inputPort::InputPortEnum const port) const;
+	int readSonarSensor(inputPort::InputPortEnum const port);
+	int readColorSensor(inputPort::InputPortEnum const port);
 	int readLightSensor(inputPort::InputPortEnum const port) const;
 
 	void showModelWidget();
@@ -103,6 +103,7 @@ private:
 	int readSingleColorSensor(unsigned long color, QHash<unsigned long, int> countsColor, int n) const;
 
 	bool checkCollision();
+	bool sensorExist(inputPort::InputPortEnum port);
 
 	bool mTimerActive;
 };
