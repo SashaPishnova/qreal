@@ -34,7 +34,7 @@ QList<SmartLine> EnginesGenerator::convertElementIntoDirectCommand(NxtOSEKRobotG
 	QList<SmartLine> result;
 	QString const power = nxtGen->api()->stringProperty(logicElementId, "Power");
 	QString brakeMode = nxtGen->api()->stringProperty(logicElementId, "BrakeMode");
-	if (brakeMode.compare("СЃРєРѕР»СЊР·РёС‚СЊ")) {
+	if (brakeMode.compare("скользить")) {
 		brakeMode = "0";
 	} else {
 		brakeMode = "1";

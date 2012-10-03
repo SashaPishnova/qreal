@@ -2,7 +2,7 @@
 
 #include "../nxtOSEKRobotGenerator.h"
 #include "../elementGeneratorFactory.h"
-#include "simpleElements/abstractsimpleelementgenerator.h"
+#include "simpleElements/abstractSimpleElementGenerator.h"
 
 using namespace qReal;
 using namespace robots::generator;

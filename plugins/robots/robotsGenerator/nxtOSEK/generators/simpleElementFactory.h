@@ -2,7 +2,7 @@
 
 #include "../../../../../qrkernel/ids.h"
 #include "../nxtOSEKRobotGenerator.h"
-#include "simpleElements/abstractsimpleelementgenerator.h"
+#include "simpleElements/abstractSimpleElementGenerator.h"
 
 namespace robots {
 namespace generator {

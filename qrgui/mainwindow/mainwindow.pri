@@ -12,7 +12,11 @@ HEADERS += \
 	mainwindow/findManager.h \
 	mainwindow/dotRunner.h \
 	mainwindow/splashScreen.h \
+	mainwindow/projectManager/projectManagementInterface.h \
 	mainwindow/projectManager/projectManager.h \
+	mainwindow/tabWidget.h \
+	mainwindow/miniMap.h \
+	mainwindow/referenceList.h \
 	mainwindow/projectManager/autosaver.h \
 	mainwindow/externBrowser.h \
 
@@ -28,6 +32,9 @@ SOURCES += \
 	mainwindow/dotRunner.cpp \
 	mainwindow/splashScreen.cpp \
 	mainwindow/projectManager/projectManager.cpp \
+	mainwindow/tabWidget.cpp \
+	mainwindow/miniMap.cpp \
+	mainwindow/referenceList.cpp \
 	mainwindow/projectManager/autosaver.cpp \
 	mainwindow/macExternBrowser.cpp \
 
@@ -57,6 +64,7 @@ macx {
 
 FORMS += \
 	mainwindow/mainWindow.ui \
+	mainwindow/referenceList.ui
 
 # Shape editor
 HEADERS += \

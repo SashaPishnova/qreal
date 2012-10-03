@@ -40,6 +40,7 @@ NxtOSEKRobotGenerator::NxtOSEKRobotGenerator(QString const &pathToRepo
 	mApi = new qrRepo::RepoApi(pathToRepo);
 }
 
+
 NxtOSEKRobotGenerator::~NxtOSEKRobotGenerator()
 {
 	if (mApi && mIsNeedToDeleteMApi) {
@@ -169,13 +170,10 @@ void NxtOSEKRobotGenerator::generate()
 	toGenerate << mApi->elementsByType("InitialBlock");
 
 	int curInitialNodeNumber = 0;
-	//QDir projectsDir; //TODO: use user path to projects
 	QString const projectName = "example" + QString::number(curInitialNodeNumber);
 	QString const projectDir = "nxt-tools/" + projectName;
-	createProjectDir(projectDir);
 
-	mResultString = utils::InFile::readAll(":/nxtOSEK/templates/template.c");
-	mResultOil = utils::InFile::readAll(":/nxtOSEK/templates/template.oil");
+	initializeGeneration(projectDir);
 
 	QString resultTaskTemplate = utils::InFile::readAll(":/nxtOSEK/templates/taskTemplate.oil");
 
@@ -201,6 +199,14 @@ void NxtOSEKRobotGenerator::generate()
 	outputInCAndOilFile(projectName, projectDir, toGenerate);
 }
 
+void NxtOSEKRobotGenerator::initializeGeneration(QString const projectDir)
+{
+	createProjectDir(projectDir);
+
+	mResultString = utils::InFile::readAll(":/nxtOSEK/templates/template.c");
+	mResultOil = utils::InFile::readAll(":/nxtOSEK/templates/template.oil");
+}
+
 QList<SmartLine> &NxtOSEKRobotGenerator::variables()
 {
 	return mVariables;
@@ -221,45 +227,26 @@ qrRepo::RepoApi const * const NxtOSEKRobotGenerator::api() const
 	return mApi;
 }
 
-QByteArray NxtOSEKRobotGenerator::portValue1() const
+QByteArray &NxtOSEKRobotGenerator::portValue1()
 {
 	return mPortValue1;
 }
 
-QByteArray NxtOSEKRobotGenerator::portValue2() const
+QByteArray &NxtOSEKRobotGenerator::portValue2()
 {
 	return mPortValue2;
 }
 
-QByteArray NxtOSEKRobotGenerator::portValue3() const
+QByteArray &NxtOSEKRobotGenerator::portValue3()
 {
 	return mPortValue3;
 }
 
-QByteArray NxtOSEKRobotGenerator::portValue4() const
+QByteArray &NxtOSEKRobotGenerator::portValue4()
 {
 	return mPortValue4;
 }
 
-void NxtOSEKRobotGenerator::setPortValue1(QByteArray portValue)
-{
-	mPortValue1 = portValue;
-}
-
-void NxtOSEKRobotGenerator::setPortValue2(QByteArray portValue)
-{
-	mPortValue2 = portValue;
-}
-
-void NxtOSEKRobotGenerator::setPortValue3(QByteArray portValue)
-{
-	mPortValue3 = portValue;
-}
-
-void NxtOSEKRobotGenerator::setPortValue4(QByteArray portValue)
-{
-	mPortValue4 = portValue;
-}
 ErrorReporterInterface &NxtOSEKRobotGenerator::errorReporter()
 {
 	return mErrorReporter;

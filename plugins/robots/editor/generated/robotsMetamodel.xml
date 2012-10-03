@@ -635,6 +635,80 @@
 					</generalizations>
 				</logic>
 			</node>
+			<node displayedName="Начало цикла" name="BeginningOfLoop">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/loopBlock.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels>
+						<label x="33" y="60" textBinded="Iterations"/>
+						<label x="-37" y="60" text="Итераций:"/>
+					</labels>
+					<ports>
+						<linePort>
+							<start startx="0" starty="5"/>
+							<end endx="0" endy="45"/>
+						</linePort>
+						<linePort>
+							<start startx="5" starty="0"/>
+							<end endx="45" endy="0"/>
+						</linePort>
+						<linePort>
+							<start startx="50" starty="5"/>
+							<end endx="50" endy="45"/>
+						</linePort>
+						<linePort>
+							<start startx="5" starty="50"/>
+							<end endx="45" endy="50"/>
+						</linePort>
+					</ports>
+					<nonResizeable/>
+				</graphics>
+				<logic>
+					<container/>
+					<properties>
+						<property displayedName="Итерации" type="string" name="Iterations">
+							<default>10</default>
+						</property>
+					</properties>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
+			<node displayedName="Конец цикла" name="EndOfLoop">
+				<graphics>
+					<picture sizex="50" sizey="50">
+						<image y1="0" name="images/loopBlock.png" x1="0" y2="50" x2="50"/>
+					</picture>
+					<labels/>
+					<ports>
+						<linePort>
+							<start startx="0" starty="5"/>
+							<end endx="0" endy="45"/>
+						</linePort>
+						<linePort>
+							<start startx="5" starty="0"/>
+							<end endx="45" endy="0"/>
+						</linePort>
+						<linePort>
+							<start startx="50" starty="5"/>
+							<end endx="50" endy="45"/>
+						</linePort>
+						<linePort>
+							<start startx="5" starty="50"/>
+							<end endx="45" endy="50"/>
+						</linePort>
+					</ports>
+					<nonResizeable/>
+				</graphics>
+				<logic>
+					<container/>
+					<generalizations>
+						<parent parentName="AbstractNode"/>
+					</generalizations>
+				</logic>
+			</node>
 			<node displayedName="Параллельные задачи" name="Fork">
 				<graphics>
 					<picture sizex="50" sizey="50">
@@ -882,7 +956,7 @@
 			<node displayedName="Ждать свет" name="WaitForLight">
 				<graphics>
 					<picture sizex="50" sizey="50">
-						<image y1="0" name="images/waitForLightSensor.png" x1="0" y2="50" x2="50"/>
+						<image y1="0" name="images/waitForLight.png" x1="0" y2="50" x2="50"/>
 					</picture>
 					<labels>
 						<label x="33" y="60" textBinded="Port"/>
@@ -1216,37 +1290,35 @@
 		</graphicTypes>
 		<palette>
 			<group name="Действия">
-				<element name="Гудок"/>
-				<element name="Играть звук"/>
-				<element name="Моторы вперёд"/>
-				<element name="Моторы назад"/>
-				<element name="Моторы стоп"/>
-				<element name="Функция"/>
-				<element name="Поток управления"/>
+				<element name="Beep"/>
+				<element name="PlayTone"/>
+				<element name="EnginesForward"/>
+				<element name="EnginesBackward"/>
+				<element name="EnginesStop"/>
+				<element name="Function"/>
 			</group>
 			<group name="Ожидания">
-				<element name="Таймер"/>
-				<element name="Ждать сенсор касания"/>
-				<element name="Ждать сонар"/>
-				<element name="Ждать цвет"/>
-				<element name="Ждать энкодер"/>
-				<element name="Ждать интенсивность цвета"/>
-				<element name="Ждать свет"/>
+				<element name="Timer"/>
+				<element name="WaitForTouchSensor"/>
+				<element name="WaitForSonarDistance"/>
+				<element name="WaitForColor"/>
+				<element name="WaitForEncoder"/>
+				<element name="WaitForColorIntensity"/>
+				<element name="WaitForLight"/>
 			</group>
 			<group name="Алгоритмы">
-				<element name="Породить поток"/>
-				<element name="Условие"/>
-				<element name="Цикл"/>
-				<element name="Подпрограмма"/>
-				<element name="Линия соединения"/>
-				<element name="Диаграмма поведения робота"/>
-				<element name="Параллельные задачи"/>
+				<element name="Fork"/>
+				<element name="IfBlock"/>
+				<element name="BeginningOfLoop"/>
+				<element name="EndOfLoop"/>
+				<element name="ControlFlow"/>
+				<element name="RobotsDiagramNode"/>
 			</group>
 			<group name="Инициализация">
-				<element name="Начало"/>
-				<element name="Конец"/>
-				<element name="Блок инициализации"/>
-				<element name="Сбросить показания энкодера"/>
+				<element name="InitialNode"/>
+				<element name="FinalNode"/>
+				<element name="InitialBlock"/>
+				<element name="NullificationEncoder"/>
 			</group>
 		</palette>
 	</diagram>

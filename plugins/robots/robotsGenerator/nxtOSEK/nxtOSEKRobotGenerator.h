@@ -30,15 +30,10 @@ public:
 	QList<SmartLine> &terminateCode();
 	qrRepo::RepoApi const * const api() const;
 
-	QByteArray portValue1() const;
-	QByteArray portValue2() const;
-	QByteArray portValue3() const;
-	QByteArray portValue4() const;
-
-	void setPortValue1(QByteArray portValue);
-	void setPortValue2(QByteArray portValue);
-	void setPortValue3(QByteArray portValue);
-	void setPortValue4(QByteArray portValue);
+	QByteArray &portValue1();
+	QByteArray &portValue2();
+	QByteArray &portValue3();
+	QByteArray &portValue4();
 
 	qReal::ErrorReporterInterface &errorReporter();
 	qReal::Id &previousElement();
@@ -52,7 +47,10 @@ public:
 
 private:
 	void createProjectDir(QString const &projectDir);
-	void insertCode(QString const &resultCode, QString const &resultInitCode, QString const &resultTerminateCode
+	void insertCode(
+			QString const &resultCode
+			, QString const &resultInitCode
+			, QString const &resultTerminateCode
 			, QString const &curInitialNodeNumber);
 	void deleteResidualLabels(QString const &projectName);
 	void generateMakeFile(bool const &toGenerateIsEmpty, QString const &projectName, QString const &projectDir);
@@ -63,6 +61,8 @@ private:
 	void outputInCAndOilFile(QString const projectName, QString const projectDir, qReal::IdList toGenerate);
 	void initializeFields(QString resultTaskTemplate, qReal::Id curInitialNode);
 
+	/// Loads templates and creates output directory.
+	void initializeGeneration(const QString projectDir);
 
 	QString mResultOil;
 	QString mResultString;

@@ -1,4 +1,4 @@
-#include "abstractsimpleelementgenerator.h"
+#include "abstractSimpleElementGenerator.h"
 
 #include "../abstractElementGenerator.h"
 
@@ -24,7 +24,7 @@ QList<SmartLine> AbstractSimpleElementGenerator::convertedCode(NxtOSEKRobotGener
 	return result;
 }
 
-QList<QString> AbstractSimpleElementGenerator::portsToEngineNames(QString const &portsProperty)
+QList<QString> AbstractSimpleElementGenerator::portsToEngineNames(QString const &portsProperty) const
 {
 	QList<QString> result;
 
@@ -41,7 +41,7 @@ QList<QString> AbstractSimpleElementGenerator::portsToEngineNames(QString const 
 	return result;
 }
 
-QString AbstractSimpleElementGenerator::transformSign(QString const &sign)
+QString AbstractSimpleElementGenerator::transformSign(QString const &sign) const
 {
 	if (sign == "меньше") {
 		return "<";

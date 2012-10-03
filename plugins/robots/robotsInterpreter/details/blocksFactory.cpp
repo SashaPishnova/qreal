@@ -22,6 +22,8 @@
 #include "blocks/waitForEncoderBlock.h"
 #include "blocks/nullificationEncoderBlock.h"
 #include "blocks/waitForLightSensorBlock.h"
+#include "blocks/beginningOfLoopBlock.h"
+#include "blocks/endOfLoopBlock.h"
 
 using namespace qReal;
 using namespace interpreters::robots::details;
@@ -89,6 +91,10 @@ Block *BlocksFactory::block(Id const &element)
 		newBlock = new NullificationEncoderBlock(mRobotModel);
 	} else if (elementMetatypeIs(element, "WaitForLight")) {
 		newBlock = new WaitForLightSensorBlock(mRobotModel);
+	} else if (elementMetatypeIs(element, "EndOfLoop")) {
+		newBlock = new EndOfLoopBlock();
+	} else if (elementMetatypeIs(element, "BeginningOfLoop")) {
+		newBlock = new BeginningOfLoopBlock();
 	} else {
 		newBlock = new DummyBlock();
 	}
