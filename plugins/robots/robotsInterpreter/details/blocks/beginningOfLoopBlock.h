@@ -17,6 +17,12 @@ class BeginningOfLoopBlock : public Block
 public:
 	BeginningOfLoopBlock();
 	virtual void run();
+
+private:
+	virtual void additionalInit();
+
+	int mIterations;
+	bool mLoopDone;
 };
 }
 }

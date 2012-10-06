@@ -11,8 +11,9 @@ ForkBlock::ForkBlock()
 
 void ForkBlock::run()
 {
-	foreach (Block *block, mThreadStartBlocks)
+	foreach (Block *block, mThreadStartBlocks) {
 		emit newThread(block);
+	}
 	emit done(mNextBlock);
 }
 

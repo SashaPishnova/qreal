@@ -34,11 +34,15 @@ public:
 	virtual QList<SensorPortPair> usedSensors() const;
 
 	virtual void stopActiveTimerInBlock();
+	virtual void loopBeginning(Block * const block, bool const lastRun);
 
 signals:
 	void done(blocks::Block * const nextBlock);
 	void newThread(details::blocks::Block * const startBlock);
 	void failure();
+	void loopBeginningRun(bool const lastRun);
+	void updateData();
+	void loopDone();
 
 protected:
 	Block *mNextBlock;  // Does not have ownership

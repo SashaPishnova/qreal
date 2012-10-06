@@ -18,15 +18,17 @@ BlocksTable::BlocksTable(GraphicalModelAssistInterface const &graphicalModelApi
 
 BlocksTable::~BlocksTable()
 {
-	foreach (blocks::Block *block, mBlocks.values())
+	foreach (blocks::Block *block, mBlocks.values()) {
 		delete block;
+	}
 	delete mBlocksFactory;
 }
 
 blocks::Block *BlocksTable::block(Id const &element)
 {
-	if (mBlocks.contains(element))
+	if (mBlocks.contains(element)) {
 		return mBlocks[element];
+	}
 
 	blocks::Block *newBlock = mBlocksFactory->block(element);
 	addBlock(element, newBlock);
@@ -36,8 +38,9 @@ blocks::Block *BlocksTable::block(Id const &element)
 void BlocksTable::clear()
 {
 	mBlocksFactory->getParser()->robotsClearVariables();
-	foreach (blocks::Block *block, mBlocks.values())
+	foreach (blocks::Block *block, mBlocks.values()) {
 		delete block;
+	}
 	mBlocks.clear();
 }
 
@@ -51,8 +54,9 @@ void BlocksTable::setFailure()
 
 void BlocksTable::setIdleForBlocks()
 {
-	foreach (blocks::Block *block, mBlocks.values())
+	foreach (blocks::Block *block, mBlocks.values()) {
 		block->setIdleStatus();
+	}
 }
 
 void BlocksTable::addBlock(Id const &element, blocks::Block *block)

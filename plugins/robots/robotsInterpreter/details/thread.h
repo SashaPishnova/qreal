@@ -30,11 +30,15 @@ signals:
 private slots:
 	void nextBlock(blocks::Block * const block);
 	void failure();
+	void loopBeginningRun(bool const lastRun);
+	void loopDone();
+	void updateData();
 
 private:
 	gui::MainWindowInterpretersInterface &mInterpretersInterface;
 	blocks::Block *mCurrentBlock;  // Doesn't have ownership
 	BlocksTable &mBlocksTable;
+	QList<QPair<blocks::Block *, bool > > mLoopBeginnings;
 };
 
 }

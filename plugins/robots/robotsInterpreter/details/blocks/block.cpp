@@ -68,8 +68,9 @@ Id const Block::id() const
 
 void Block::interpret()
 {
-	if ((mState == running) || (mState == failed))
+	if ((mState == running) || (mState == failed)) {
 		return;
+	}
 
 	mState = running;
 	bool result = initNextBlocks();
@@ -158,4 +159,10 @@ QVariant Block::evaluate(const QString &propertyName)
 
 void Block::stopActiveTimerInBlock()
 {
+}
+
+void Block::loopBeginning(Block * const block, bool const lastRun)
+{
+	Q_UNUSED(block)
+	Q_UNUSED(lastRun)
 }

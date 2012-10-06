@@ -17,6 +17,13 @@ class EndOfLoopBlock : public Block
 public:
 	EndOfLoopBlock();
 	virtual void run();
+
+private:
+	virtual bool initNextBlocks();
+	virtual void loopBeginning(Block *const block, bool const lastRun);
+	void updateLoopData();
+
+	QPair<Block *, bool> mLoopBeginning;
 };
 }
 }
