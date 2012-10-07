@@ -61,13 +61,15 @@ QString NxtOSEKRobotGenerator::generateVariableString()
 
 QString NxtOSEKRobotGenerator::addTabAndEndOfLine(QList<SmartLine> const &lineList, QString resultCode)
 {
+	int const numberOfSpaceInIndent = 6;
 	foreach (SmartLine const &curLine, lineList) {
 		if (curLine.indentLevelChange() == SmartLine::decrease
 			|| curLine.indentLevelChange() == SmartLine::decreaseOnlyThisLine)
 		{
 			mCurTabNumber--;
 		}
-		resultCode += '\t' + QString(mCurTabNumber, '\t') + curLine.text() + "\n";
+		resultCode += QString(numberOfSpaceInIndent, ' ') + QString(numberOfSpaceInIndent * mCurTabNumber, ' ')
+				+ curLine.text() + "\n";
 		if (curLine.indentLevelChange() == SmartLine::increase
 			|| curLine.indentLevelChange() == SmartLine::decreaseOnlyThisLine)
 		{

@@ -29,9 +29,9 @@ bool SimpleElementGenerator::nextElementsGeneration()
 
 	if (outgoingConnectedElements.size() == 1) {
 		if (outgoingConnectedElements.at(0) == Id::rootId()) {
-			mNxtGen->errorReporter().addError("Element " + mElementId.toString() + " has no"\
+			mNxtGen->errorReporter().addError(QObject::tr("Element has no"\
 					" correct next element because its link has no end object."\
-					" May be you need to connect it to diagram object.", mElementId);
+					" May be you need to connect it to diagram object."));
 			return false;
 		}
 

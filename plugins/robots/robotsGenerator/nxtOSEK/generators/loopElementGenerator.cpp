@@ -30,8 +30,8 @@ bool LoopElementGenerator::nextElementsGeneration()
 	//generate loop
 	Id const loopNextElement = mNxtGen->api()->to(outgoingLinks.at(elementConnectedByIterationEdgeNumber));
 	if (loopNextElement == Id::rootId()) {
-		mNxtGen->errorReporter().addError("Loop block " + mElementId.toString() + " has no correct loop branch!"\
-				" May be you need to connect it to some diagram element.", mElementId);
+		mNxtGen->errorReporter().addError(QObject::tr("Loop block has no correct loop branch!"\
+				" May be you need to connect it to some diagram element."));
 		return false;
 	}
 
@@ -48,8 +48,8 @@ bool LoopElementGenerator::nextElementsGeneration()
 	//generate next blocks
 	Id const nextBlockElement = mNxtGen->api()->to(outgoingLinks.at(afterLoopElementNumber));
 	if (nextBlockElement == Id::rootId()) {
-		mNxtGen->errorReporter().addError("Loop block " + mElementId.toString() + " has no correct next block branch!"\
-				" May be you need to connect it to some diagram element.", mElementId);
+		mNxtGen->errorReporter().addError(QObject::tr("Loop block has no correct next block branch!"\
+				" May be you need to connect it to some diagram element."));
 		return false;
 	}
 

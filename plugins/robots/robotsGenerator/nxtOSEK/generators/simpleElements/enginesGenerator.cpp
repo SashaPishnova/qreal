@@ -32,6 +32,7 @@ QList<SmartLine> EnginesGenerator::convertElementIntoDirectCommand(NxtOSEKRobotG
 		 , qReal::Id const elementId, qReal::Id const logicElementId)
 {
 	QList<SmartLine> result;
+	QString const ports = nxtGen->api()->stringProperty(logicElementId, "Ports");
 	QString const power = nxtGen->api()->stringProperty(logicElementId, "Power");
 	QString brakeMode = nxtGen->api()->stringProperty(logicElementId, "BrakeMode");
 	if (brakeMode.compare("скользить")) {
@@ -45,12 +46,35 @@ QList<SmartLine> EnginesGenerator::convertElementIntoDirectCommand(NxtOSEKRobotG
 		signRotate = "-";
 	}
 
-	foreach (QString const &enginePort, portsToEngineNames(nxtGen->api()->stringProperty(logicElementId, "Ports"))) {
-
+	foreach (QString const &enginePort, portsToEngineNames(ports)) {
 		result.append(SmartLine("nxt_motor_set_speed(" + enginePort + ", "
 				+ signRotate + power + ", "
 				+ brakeMode + ");", elementId));
 		addInitAndTerminateCode(nxtGen, elementId, enginePort);
+	}
+
+	QString const tachoLimit = nxtGen->api()->stringProperty(logicElementId, "TachoLimit");
+	if (tachoLimit > 0) {
+		int numberOfPortsUsed = 0;
+		QString tachoLimitResult = "";
+		foreach (QString const &enginePort, portsToEngineNames(ports)) {
+			numberOfPortsUsed++;
+			if (numberOfPortsUsed > 1) {
+				tachoLimitResult.append(" && ");
+			}
+			tachoLimitResult.append("(nxt_motor_get_count(" + enginePort + ") < "
+					+ tachoLimit + ")");
+		}
+		if (numberOfPortsUsed > 1) {
+			tachoLimitResult.append(")");
+			tachoLimitResult.prepend("(");
+		}
+		if (numberOfPortsUsed > 0) {
+			tachoLimitResult.prepend("while ");
+			result.append(SmartLine(tachoLimitResult, elementId));
+			result.append(SmartLine("{", elementId));
+			result.append(SmartLine("}", elementId));
+		}
 	}
 
 	return result;

@@ -317,6 +317,7 @@ private:
 	PreferencesDialog mPreferencesDialog;
 
 	HelpBrowser *mHelpBrowser;
+	QSplitter *mHelpPanel;
 	int mRecentProjectsLimit;
 	QSignalMapper *mRecentProjectsMapper;
 	QMenu *mRecentProjectsMenu;

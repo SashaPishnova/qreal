@@ -61,6 +61,7 @@ MainWindow::MainWindow()
 		, mTempDir(qApp->applicationDirPath() + "/" + unsavedDir)
 		, mPreferencesDialog(this)
 		, mHelpBrowser(NULL)
+		, mHelpPanel(NULL)
 		, mRecentProjectsLimit(5)
 		, mRecentProjectsMapper(new QSignalMapper())
 		, mProjectManager(new ProjectManager(this))
@@ -240,6 +241,7 @@ MainWindow::~MainWindow()
 	delete mListenerManager;
 	delete mErrorReporter;
 	delete mHelpBrowser;
+	delete mHelpPanel;
 	SettingsManager::instance()->saveData();
 	delete mRecentProjectsMenu;
 	delete mRecentProjectsMapper;
@@ -263,6 +265,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 	foreach (ToolPluginInterface *toolPlugin, toolPlugins) {
 		toolPlugin->closeNeededWidget();
 	}
+
+	mHelpPanel->close();
 
 	if (!mProjectManager->suggestToSaveChangesOrCancel()) {
 		event->ignore();
@@ -687,27 +691,32 @@ void MainWindow::showAbout()
 
 void MainWindow::showHelp()
 {
-	// FIXME: ":/qreal-robots.qhc" doesn't work for some reason
-	QHelpEngine * const helpEngine = new QHelpEngine("./qreal-robots.qhc");
-	helpEngine->setupData();
+	if (mHelpPanel) {
+		mHelpPanel->showNormal();
+		mHelpPanel->activateWindow();
+	} else {
+		// FIXME: ":/qreal-robots.qhc" doesn't work for some reason
+		QHelpEngine * const helpEngine = new QHelpEngine("./qreal-robots.qhc");
+		helpEngine->setupData();
 
-	helpEngine->setCurrentFilter("QReal:Robots");
+		helpEngine->setCurrentFilter("QReal:Robots");
 
-	mHelpBrowser = new HelpBrowser(helpEngine);
-	mHelpBrowser->setSource(helpEngine->linksForIdentifier("QReal")["QReal:Robots"]);
+		mHelpBrowser = new HelpBrowser(helpEngine);
+		mHelpBrowser->setSource(helpEngine->linksForIdentifier("QReal")["QReal:Robots"]);
 
-	QSplitter * const helpPanel = new QSplitter(Qt::Horizontal);
-	helpPanel->setGeometry(QRect(50, 50, 1000, 800));
-	helpPanel->setWindowTitle("QReal:Robots Help Center");
-	QIcon icon;
-	icon.addFile(QString::fromUtf8(":/icons/qreal.png"), QSize(), QIcon::Normal, QIcon::Off);
-	helpPanel->setWindowIcon(icon);
-	helpPanel->insertWidget(0, helpEngine->contentWidget());
-	helpPanel->insertWidget(1, mHelpBrowser);
-	helpPanel->setStretchFactor(1, 1);
-	helpPanel->show();
+		mHelpPanel = new QSplitter(Qt::Horizontal);
+		mHelpPanel->setGeometry(QRect(50, 50, 1000, 800));
+		mHelpPanel->setWindowTitle("QReal:Robots Help Center");
+		QIcon icon;
+		icon.addFile(QString::fromUtf8(":/icons/qreal.png"), QSize(), QIcon::Normal, QIcon::Off);
+		mHelpPanel->setWindowIcon(icon);
+		mHelpPanel->insertWidget(0, helpEngine->contentWidget());
+		mHelpPanel->insertWidget(1, mHelpBrowser);
+		mHelpPanel->setStretchFactor(1, 1);
+		mHelpPanel->show();
 
-	connect(helpEngine->contentWidget(), SIGNAL(linkActivated(const QUrl &)), mHelpBrowser, SLOT(setSource(const QUrl &)));
+		connect(helpEngine->contentWidget(), SIGNAL(linkActivated(const QUrl &)), mHelpBrowser, SLOT(setSource(const QUrl &)));
+	}
 }
 
 void MainWindow::toggleShowSplash(bool show)

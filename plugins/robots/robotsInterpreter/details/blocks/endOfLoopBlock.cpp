@@ -32,7 +32,7 @@ bool EndOfLoopBlock::initNextBlocks()
 		error(tr("No outgoing links, please connect this block to something or use Final Node to end program"));
 		return false;
 	}
-\
+
 	bool lastRun = mLoopBeginning.second;
 	if (!lastRun) {
 		mNextBlock = mLoopBeginning.first;
