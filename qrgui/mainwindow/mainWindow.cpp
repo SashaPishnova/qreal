@@ -266,7 +266,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
 		toolPlugin->closeNeededWidget();
 	}
 
-	mHelpPanel->close();
+	if (mHelpPanel) {
+		mHelpPanel->close();
+	}
 
 	if (!mProjectManager->suggestToSaveChangesOrCancel()) {
 		event->ignore();

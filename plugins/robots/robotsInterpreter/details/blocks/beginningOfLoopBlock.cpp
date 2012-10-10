@@ -33,3 +33,8 @@ void BeginningOfLoopBlock::additionalInit()
 		error(tr("In the Beginning of Loop Block not a positive number of iterations is selected.Please, enter a positive number"));
 	}
 }
+
+void BeginningOfLoopBlock::setLoopDone()
+{
+	mLoopDone = true;
+}

@@ -17,6 +17,7 @@ class BeginningOfLoopBlock : public Block
 public:
 	BeginningOfLoopBlock();
 	virtual void run();
+	virtual void setLoopDone();
 
 private:
 	virtual void additionalInit();

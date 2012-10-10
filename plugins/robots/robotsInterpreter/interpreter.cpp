@@ -105,6 +105,7 @@ void Interpreter::stopRobot()
 	mRobotModel->stopRobot();
 	mState = idle;
 	foreach (Thread *thread, mThreads) {
+		thread->setLoopsDone();
 		delete thread;
 		mThreads.removeAll(thread);
 	}
@@ -113,7 +114,7 @@ void Interpreter::stopRobot()
 
 void Interpreter::showWatchList()
 {
-	if (mWatchListWindow != NULL) {
+	if (mWatchListWindow) {
 		mWatchListWindow->close();
 	}
 	mWatchListWindow = new watchListWindow(mParser);
@@ -225,6 +226,7 @@ void Interpreter::threadStopped()
 {
 	Thread *thread = static_cast<Thread *>(sender());
 
+	thread->setLoopsDone();
 	mThreads.removeAll(thread);
 	delete thread;
 
@@ -366,17 +368,17 @@ void Interpreter::connectToRobot()
 	} else {
 		mRobotModel->init();
 		configureSensors(static_cast<sensorType::SensorTypeEnum>(SettingsManager::instance()->value("port1SensorType").toInt())
-						 , static_cast<sensorType::SensorTypeEnum>(SettingsManager::instance()->value("port2SensorType").toInt())
-						 , static_cast<sensorType::SensorTypeEnum>(SettingsManager::instance()->value("port3SensorType").toInt())
-						 , static_cast<sensorType::SensorTypeEnum>(SettingsManager::instance()->value("port4SensorType").toInt()));
+				, static_cast<sensorType::SensorTypeEnum>(SettingsManager::instance()->value("port2SensorType").toInt())
+				, static_cast<sensorType::SensorTypeEnum>(SettingsManager::instance()->value("port3SensorType").toInt())
+				, static_cast<sensorType::SensorTypeEnum>(SettingsManager::instance()->value("port4SensorType").toInt()));
 	}
 	mActionConnectToRobot->setChecked(mConnected);
 }
 
 void Interpreter::disconnectSlot()
 {
-	mActionConnectToRobot->setChecked(false);
 	mConnected = false;
+	mActionConnectToRobot->setChecked(mConnected);
 	stopRobot();
 }
 

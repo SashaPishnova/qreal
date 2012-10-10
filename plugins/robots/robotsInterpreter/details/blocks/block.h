@@ -35,6 +35,7 @@ public:
 
 	virtual void stopActiveTimerInBlock();
 	virtual void loopBeginning(Block * const block, bool const lastRun);
+	virtual void setLoopDone() {}
 
 signals:
 	void done(blocks::Block * const nextBlock);

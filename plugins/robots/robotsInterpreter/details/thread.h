@@ -22,6 +22,7 @@ public:
 			, BlocksTable &blocksTable, Id const &initialNode);
 	~Thread();
 	void interpret();
+	void setLoopsDone();
 
 signals:
 	void stopped();

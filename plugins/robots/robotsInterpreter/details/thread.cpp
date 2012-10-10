@@ -80,7 +80,14 @@ void Thread::updateData()
 {
 	if (!mLoopBeginnings.isEmpty()) {
 		mCurrentBlock->loopBeginning(mLoopBeginnings.first().first, mLoopBeginnings.first().second);
-	} else {
-		mCurrentBlock->loopBeginning(NULL, false);
+	}
+}
+
+void Thread::setLoopsDone()
+{
+	while (!mLoopBeginnings.isEmpty()) {
+		blocks::Block * block = mLoopBeginnings.first().first;
+		block->setLoopDone();
+		mLoopBeginnings.removeFirst();
 	}
 }
