@@ -17,6 +17,8 @@
 #include "simpleElements/variableInitGenerator.h"
 #include "simpleElements/balanceInitGenerator.h"
 #include "simpleElements/initialNodeGenerator.h"
+#include "simpleElements/endOfLoopBlockGenerator.h"
+#include "simpleElements/beginningOfLoopBlockGenerator.h"
 
 using namespace robots::generator;
 
@@ -56,6 +58,10 @@ AbstractSimpleElementGenerator* SimpleElementFactory::generator(QString const el
 		return new BalanceInitGenerator();
 	} else if (elementType == "VariableInit") {
 		return new VariableInitGenerator();
+	} else if (elementType == "BeginningOfLoop") {
+		return new BeginningOfLoopBlockGenerator();
+	} else if (elementType == "EndOfLoop") {
+		return new EndOfLoopBlockGenerator();
 	}
 
 	return new InitialNodeGenerator();

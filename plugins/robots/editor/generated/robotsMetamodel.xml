@@ -1311,6 +1311,7 @@
 				<element name="IfBlock"/>
 				<element name="BeginningOfLoop"/>
 				<element name="EndOfLoop"/>
+				<element name="Loop"/>
 				<element name="ControlFlow"/>
 				<element name="RobotsDiagramNode"/>
 			</group>

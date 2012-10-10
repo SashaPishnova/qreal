@@ -18,7 +18,7 @@ QList<SmartLine> IfElementGenerator::addLoopCodeInPrefixForm()
 	qReal::Id const logicElementId = mNxtGen->api()->logicalId(mElementId); //TODO
 	result << SmartLine("while ("
 			+ mNxtGen->api()->property(logicElementId, "Condition").toString()
-				+ ") {", mElementId, SmartLine::increase); //TODO
+			+ ") {", mElementId, SmartLine::increase); //TODO
 	return result;
 }
 

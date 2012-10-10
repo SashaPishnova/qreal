@@ -53,7 +53,7 @@ QList<SmartLine> EnginesGenerator::convertElementIntoDirectCommand(NxtOSEKRobotG
 		addInitAndTerminateCode(nxtGen, elementId, enginePort);
 	}
 
-	QString const tachoLimit = nxtGen->api()->stringProperty(logicElementId, "TachoLimit");
+	int const tachoLimit = nxtGen->api()->stringProperty(logicElementId, "TachoLimit").toInt();
 	if (tachoLimit > 0) {
 		int numberOfPortsUsed = 0;
 		QString tachoLimitResult = "";
