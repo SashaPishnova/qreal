@@ -68,7 +68,7 @@
         <location filename="details/d2RobotModel/d2Form.ui" line="274"/>
         <location filename="details/d2RobotModel/d2Form.ui" line="305"/>
         <source>empty</source>
-        <translation type="unfinished">нет сенсора</translation>
+        <translation>нет сенсора</translation>
     </message>
     <message>
         <location filename="details/d2RobotModel/d2Form.ui" line="225"/>
@@ -97,7 +97,7 @@
     <message>
         <location filename="details/d2RobotModel/d2Form.ui" line="358"/>
         <source>Set speed</source>
-        <translation type="unfinished">Установить скорость</translation>
+        <translation>Установить скорость</translation>
     </message>
     <message>
         <location filename="details/d2RobotModel/d2Form.ui" line="370"/>
@@ -115,17 +115,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="details/d2RobotModel/d2Form.ui" line="394"/>
         <source>Low</source>
-        <translation type="unfinished">Низкая</translation>
+        <translation>Низкая</translation>
     </message>
     <message>
         <location filename="details/d2RobotModel/d2Form.ui" line="399"/>
         <source>Medium</source>
-        <translation type="unfinished">Средняя</translation>
+        <translation>Средняя</translation>
     </message>
     <message>
         <location filename="details/d2RobotModel/d2Form.ui" line="404"/>
         <source>High</source>
-        <translation type="unfinished">Высокая</translation>
+        <translation>Высокая</translation>
     </message>
     <message>
         <source>add</source>
@@ -259,32 +259,28 @@ p, li { white-space: pre-wrap; }
         <translation>Сенсор</translation>
     </message>
     <message>
-        <location filename="interpreter.cpp" line="304"/>
         <source>Sensor1</source>
-        <translation>Сенсор1</translation>
+        <translation type="obsolete">Сенсор1</translation>
     </message>
     <message>
-        <location filename="interpreter.cpp" line="309"/>
         <source>Sensor2</source>
-        <translation>Сенсор2</translation>
+        <translation type="obsolete">Сенсор2</translation>
     </message>
     <message>
-        <location filename="interpreter.cpp" line="314"/>
         <source>Sensor3</source>
-        <translation>Сенсор3</translation>
+        <translation type="obsolete">Сенсор3</translation>
     </message>
     <message>
-        <location filename="interpreter.cpp" line="319"/>
         <source>Sensor4</source>
-        <translation>Сенсор4</translation>
+        <translation type="obsolete">Сенсор4</translation>
     </message>
     <message>
-        <location filename="robotsPlugin.cpp" line="42"/>
+        <location filename="robotsPlugin.cpp" line="39"/>
         <source>2d model</source>
         <translation>2D модель</translation>
     </message>
     <message>
-        <location filename="robotsPlugin.cpp" line="46"/>
+        <location filename="robotsPlugin.cpp" line="43"/>
         <source>Run</source>
         <translation>Выполнить</translation>
     </message>
@@ -293,27 +289,27 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Прервать выполнение</translation>
     </message>
     <message>
-        <location filename="robotsPlugin.cpp" line="50"/>
+        <location filename="robotsPlugin.cpp" line="47"/>
         <source>Stop robot</source>
         <translation>Остановить</translation>
     </message>
     <message>
-        <location filename="robotsPlugin.cpp" line="54"/>
+        <location filename="robotsPlugin.cpp" line="51"/>
         <source>Connect to robot</source>
         <translation>Подключиться</translation>
     </message>
     <message>
-        <location filename="robotsPlugin.cpp" line="60"/>
+        <location filename="robotsPlugin.cpp" line="57"/>
         <source>Robot settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="robotsPlugin.cpp" line="64"/>
+        <location filename="robotsPlugin.cpp" line="61"/>
         <source>Show watch list</source>
         <translation>Список переменных</translation>
     </message>
     <message>
-        <location filename="robotsPlugin.cpp" line="100"/>
+        <location filename="robotsPlugin.cpp" line="103"/>
         <source>Robots</source>
         <translation>Роботы</translation>
     </message>
@@ -321,12 +317,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>qReal::interpreters::robots::Interpreter</name>
     <message>
-        <location filename="interpreter.cpp" line="75"/>
+        <location filename="interpreter.cpp" line="76"/>
         <source>No connection to robot</source>
         <translation>Нет соединения с роботом</translation>
     </message>
     <message>
-        <location filename="interpreter.cpp" line="79"/>
+        <location filename="interpreter.cpp" line="80"/>
         <source>Interpreter is already running</source>
         <translation>Программа уже запущена</translation>
     </message>
@@ -336,12 +332,12 @@ p, li { white-space: pre-wrap; }
         <translation>Не найдено начало программы. Пожалуйста, добавьте блок &quot;Начало&quot;</translation>
     </message>
     <message>
-        <location filename="interpreter.cpp" line="166"/>
+        <location filename="interpreter.cpp" line="178"/>
         <source>Connected successfully</source>
         <translation>Подключение к роботу выполнено</translation>
     </message>
     <message>
-        <location filename="interpreter.cpp" line="170"/>
+        <location filename="interpreter.cpp" line="182"/>
         <source>Can&apos;t connect to a robot.</source>
         <translation>Не удалось подключиться к роботу.</translation>
     </message>
@@ -357,65 +353,79 @@ p, li { white-space: pre-wrap; }
     <name>qReal::interpreters::robots::PreferencesRobotSettingsPage</name>
     <message>
         <location filename="robotSettingsPage.cpp" line="57"/>
-        <location filename="robotSettingsPage.cpp" line="102"/>
+        <location filename="robotSettingsPage.cpp" line="103"/>
         <source>Unused</source>
         <translation>Не используется</translation>
     </message>
     <message>
         <location filename="robotSettingsPage.cpp" line="58"/>
-        <location filename="robotSettingsPage.cpp" line="103"/>
+        <location filename="robotSettingsPage.cpp" line="104"/>
         <source>Touch sensor (boolean value)</source>
         <translation>Сенсор касания</translation>
     </message>
     <message>
         <location filename="robotSettingsPage.cpp" line="59"/>
-        <location filename="robotSettingsPage.cpp" line="104"/>
+        <location filename="robotSettingsPage.cpp" line="105"/>
         <source>Touch sensor (raw value)</source>
         <translation>Сенсор касания (сырое значение)</translation>
     </message>
     <message>
         <location filename="robotSettingsPage.cpp" line="60"/>
-        <location filename="robotSettingsPage.cpp" line="105"/>
+        <location filename="robotSettingsPage.cpp" line="106"/>
         <source>Sonar sensor</source>
         <translation>Сенсор расстояния</translation>
     </message>
     <message>
         <location filename="robotSettingsPage.cpp" line="61"/>
-        <location filename="robotSettingsPage.cpp" line="106"/>
+        <location filename="robotSettingsPage.cpp" line="107"/>
         <source>Color sensor (full colors)</source>
         <translation>Сенсор цвета (распознавание цветов)</translation>
     </message>
     <message>
         <location filename="robotSettingsPage.cpp" line="62"/>
-        <location filename="robotSettingsPage.cpp" line="107"/>
+        <location filename="robotSettingsPage.cpp" line="108"/>
         <source>Color sensor (red)</source>
         <translation>Сенсор цвета (красный)</translation>
     </message>
     <message>
         <location filename="robotSettingsPage.cpp" line="63"/>
-        <location filename="robotSettingsPage.cpp" line="108"/>
+        <location filename="robotSettingsPage.cpp" line="109"/>
         <source>Color sensor (green)</source>
         <translation>Сенсор цвета (зелёный)</translation>
     </message>
     <message>
         <location filename="robotSettingsPage.cpp" line="64"/>
-        <location filename="robotSettingsPage.cpp" line="109"/>
+        <location filename="robotSettingsPage.cpp" line="110"/>
         <source>Color sensor (blue)</source>
         <translation>Сенсор цвета (синий)</translation>
     </message>
     <message>
         <location filename="robotSettingsPage.cpp" line="65"/>
-        <location filename="robotSettingsPage.cpp" line="110"/>
+        <location filename="robotSettingsPage.cpp" line="111"/>
         <source>Color sensor (passive)</source>
         <translation>Сенсор цвета (пассивный)</translation>
+    </message>
+    <message>
+        <location filename="robotSettingsPage.cpp" line="66"/>
+        <location filename="robotSettingsPage.cpp" line="112"/>
+        <source>Light sensor</source>
+        <translation>Сенсор света</translation>
     </message>
 </context>
 <context>
     <name>qReal::interpreters::robots::RobotsPlugin</name>
     <message>
-        <location filename="robotsPlugin.cpp" line="105"/>
+        <location filename="robotsPlugin.cpp" line="108"/>
         <source>Robots</source>
         <translation>Роботы</translation>
+    </message>
+</context>
+<context>
+    <name>qReal::interpreters::robots::details::blocks::BeginningOfLoopBlock</name>
+    <message>
+        <location filename="details/blocks/beginningOfLoopBlock.cpp" line="33"/>
+        <source>In the Beginning of Loop Block not a positive number of iterations is selected.Please, enter a positive number</source>
+        <translation>В блоке &quot;Начало цикла&quot; выбрано не положительное число итераций. Пожалуйста, введите положительное число</translation>
     </message>
 </context>
 <context>
@@ -437,19 +447,42 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>qReal::interpreters::robots::details::blocks::EndOfLoopBlock</name>
+    <message>
+        <location filename="details/blocks/endOfLoopBlock.cpp" line="20"/>
+        <source>No beginning of the loop found, please add this block to a diagram</source>
+        <translation>Не найден блок &quot;Начало цикла&quot;. Пожалуйста, добавьте этот блок на диаграмму</translation>
+    </message>
+    <message>
+        <location filename="details/blocks/endOfLoopBlock.cpp" line="27"/>
+        <source>Too many outgoing links</source>
+        <translation>Слишком много исходящих связей</translation>
+    </message>
+    <message>
+        <location filename="details/blocks/endOfLoopBlock.cpp" line="32"/>
+        <source>No outgoing links, please connect this block to something or use Final Node to end program</source>
+        <translation>Нет исходящих связей. Пожалуйста, подключите этот блок к чему-нибудь или используйте блок &quot;Конец&quot;, чтобы завершить выполнение программы</translation>
+    </message>
+    <message>
+        <location filename="details/blocks/endOfLoopBlock.cpp" line="45"/>
+        <source>Outgoing link is not connected</source>
+        <translation>Исходящая связь ни к чему не подключена</translation>
+    </message>
+</context>
+<context>
     <name>qReal::interpreters::robots::details::blocks::ForkBlock</name>
     <message>
-        <location filename="details/blocks/forkBlock.cpp" line="26"/>
+        <location filename="details/blocks/forkBlock.cpp" line="27"/>
         <source>Outgoing link is not connected</source>
         <translation>Исходящая связь ни к чему не подключена</translation>
     </message>
     <message>
-        <location filename="details/blocks/forkBlock.cpp" line="39"/>
+        <location filename="details/blocks/forkBlock.cpp" line="40"/>
         <source>There must be an outgoing link, use &quot;End&quot; block to finish a program</source>
         <translation>Должна быть исходящая связь, используйте блок &quot;Конец&quot;, чтобы закончить программу</translation>
     </message>
     <message>
-        <location filename="details/blocks/forkBlock.cpp" line="44"/>
+        <location filename="details/blocks/forkBlock.cpp" line="45"/>
         <source>There must be at least two outgoing links</source>
         <translation>Должно быть как минимум две исходящие связи</translation>
     </message>
@@ -503,7 +536,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>qReal::interpreters::robots::details::blocks::InitialBlockWithPorts</name>
     <message>
-        <location filename="details/blocks/initialBlockWithPorts.cpp" line="56"/>
+        <location filename="details/blocks/initialBlockWithPorts.cpp" line="63"/>
         <source>Can&apos;t connect to a robot.</source>
         <translation>Не удалось подключиться к роботу.</translation>
     </message>
@@ -511,32 +544,32 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>qReal::interpreters::robots::details::blocks::LoopBlock</name>
     <message>
-        <location filename="details/blocks/loopBlock.cpp" line="31"/>
+        <location filename="details/blocks/loopBlock.cpp" line="35"/>
         <source>Outgoing link is not connected</source>
         <translation>Исходящая связь ни к чему не подключена</translation>
     </message>
     <message>
-        <location filename="details/blocks/loopBlock.cpp" line="36"/>
+        <location filename="details/blocks/loopBlock.cpp" line="40"/>
         <source>iteration</source>
         <translation>итерация</translation>
     </message>
     <message>
-        <location filename="details/blocks/loopBlock.cpp" line="41"/>
+        <location filename="details/blocks/loopBlock.cpp" line="45"/>
         <source>Two links marked as &quot;iteration&quot; found</source>
         <translation>Найдено две связи, помеченные как &quot;итерация&quot;</translation>
     </message>
     <message>
-        <location filename="details/blocks/loopBlock.cpp" line="49"/>
+        <location filename="details/blocks/loopBlock.cpp" line="53"/>
         <source>Two outgoing links to a next element found</source>
         <translation>Найдено две исходящие связи к следующему элементу</translation>
     </message>
     <message>
-        <location filename="details/blocks/loopBlock.cpp" line="56"/>
+        <location filename="details/blocks/loopBlock.cpp" line="60"/>
         <source>There must be a link with property &quot;Guard&quot; set as &quot;iteration&quot;</source>
         <translation>Должна быть связь со свойством &quot;Условие&quot; установленным в &quot;итерация&quot;</translation>
     </message>
     <message>
-        <location filename="details/blocks/loopBlock.cpp" line="61"/>
+        <location filename="details/blocks/loopBlock.cpp" line="65"/>
         <source>There must be a non-marked outgoing link</source>
         <translation>Должна быть непомеченная исходящая связь</translation>
     </message>
@@ -544,7 +577,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>qReal::interpreters::robots::details::blocks::NullificationEncoderBlock</name>
     <message>
-        <location filename="details/blocks/nullificationEncoderBlock.cpp" line="22"/>
+        <location filename="details/blocks/nullificationEncoderBlock.cpp" line="23"/>
         <source>Wrong port to nullificate Encoder</source>
         <translation>Неправильный порт для сброса энкодера</translation>
     </message>
@@ -598,9 +631,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>qReal::interpreters::robots::details::blocks::WaitForEncoderBlock</name>
     <message>
-        <location filename="details/blocks/waitForEncoderBlock.cpp" line="31"/>
+        <location filename="details/blocks/waitForEncoderBlock.cpp" line="32"/>
         <source>Encoder sensor is not configured on this port </source>
         <translation>Энкодер не сконфигурирован на этом порту</translation>
+    </message>
+</context>
+<context>
+    <name>qReal::interpreters::robots::details::blocks::WaitForLightSensorBlock</name>
+    <message>
+        <location filename="details/blocks/waitForLightSensorBlock.cpp" line="27"/>
+        <source>Light sensor is not configured on this port</source>
+        <translation>Сенсор света не сконфигурирован на этом порту</translation>
     </message>
 </context>
 <context>
@@ -622,14 +663,14 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>qReal::interpreters::robots::details::d2Model::D2ModelWidget</name>
     <message>
-        <location filename="details/d2RobotModel/d2ModelWidget.cpp" line="570"/>
-        <location filename="details/d2RobotModel/d2ModelWidget.cpp" line="588"/>
+        <location filename="details/d2RobotModel/d2ModelWidget.cpp" line="564"/>
+        <location filename="details/d2RobotModel/d2ModelWidget.cpp" line="583"/>
         <source>Saving world and robot model</source>
         <translation>Сохранение модели робота и модели мира</translation>
     </message>
     <message>
-        <location filename="details/d2RobotModel/d2ModelWidget.cpp" line="570"/>
-        <location filename="details/d2RobotModel/d2ModelWidget.cpp" line="588"/>
+        <location filename="details/d2RobotModel/d2ModelWidget.cpp" line="564"/>
+        <location filename="details/d2RobotModel/d2ModelWidget.cpp" line="583"/>
         <source>2D model saves (*.xml)</source>
         <translation>Файлы 2D-модели (*.xml)</translation>
     </message>

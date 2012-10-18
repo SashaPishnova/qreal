@@ -152,10 +152,12 @@ bool BluetoothRobotCommunicationThread::waitForBytes(int bytes, inputPort::Input
 	do {
 		int const bytesReady = i2cBytesReady(port);
 		SleeperThread::msleep(10);
-		if (clock() - startTime > timeout)
+		if (clock() - startTime > timeout) {
 			return false;
-		if (bytesReady >= bytes)
+		}
+		if (bytesReady >= bytes) {
 			return true;
+		}
 	} while (true);
 }
 

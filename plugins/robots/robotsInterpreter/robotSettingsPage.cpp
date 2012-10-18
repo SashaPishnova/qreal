@@ -142,10 +142,11 @@ void PreferencesRobotSettingsPage::initRobotModelType(robotModelType::robotModel
 
 void PreferencesRobotSettingsPage::initTypeOfCommunication(QString type)
 {
-	if (type == "bluetooth")
+	if (type == "bluetooth") {
 		mUi->bluetoothRadioButton->setChecked(true);
-	else
+	} else {
 		mUi->usbRadioButton->setChecked(true);
+	}
 }
 
 robotModelType::robotModelTypeEnum PreferencesRobotSettingsPage::selectedRobotModel() const
