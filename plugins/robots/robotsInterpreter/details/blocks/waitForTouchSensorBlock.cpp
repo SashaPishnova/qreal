@@ -12,7 +12,7 @@ WaitForTouchSensorBlock::WaitForTouchSensorBlock(details::RobotModel const * con
 {
 	// There is about 30 ms latency within robot bluetooth chip, so it is useless to
 	// read sensor too frequently.
-	mActiveWaitingTimer.setInterval(100);
+	mActiveWaitingTimer.setInterval(5);
 
 	connect(&mActiveWaitingTimer, SIGNAL(timeout()), this, SLOT(timerTimeout()));
 }

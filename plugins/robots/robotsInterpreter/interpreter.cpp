@@ -22,7 +22,7 @@ Interpreter::Interpreter()
 	, mState(idle)
 	, mRobotModel(new RobotModel())
 	, mBlocksTable(NULL)
-	, mRobotCommunication(new RobotCommunicator(SettingsManager::value("valueOfCommunication", "bluetooth").toString()))
+	, mRobotCommunication(new RobotCommunicator(SettingsManager::value("valueOfCommunication").toString()))
 	, mImplementationType(robotModelType::null)
 	, mWatchListWindow(NULL)
 	, mActionConnectToRobot(NULL)
@@ -38,6 +38,7 @@ Interpreter::Interpreter()
 	connect(mRobotModel, SIGNAL(sensorsConfigured()), this, SLOT(sensorsConfiguredSlot()));
 	connect(mRobotModel, SIGNAL(connected(bool)), this, SLOT(connectedSlot(bool)));
 	connect(mD2ModelWidget, SIGNAL(d2WasClosed()), this, SLOT(stopRobot()));
+	connect(mD2RobotModel, SIGNAL(errorInSensorConfiguration()), this, SLOT(stopRobot()));
 }
 
 void Interpreter::init(GraphicalModelAssistInterface const &graphicalModelApi
@@ -50,8 +51,9 @@ void Interpreter::init(GraphicalModelAssistInterface const &graphicalModelApi
 
 	mParser = new RobotsBlockParser(mInterpretersInterface->errorReporter());
 	mBlocksTable = new BlocksTable(graphicalModelApi, logicalModelApi, mRobotModel, mInterpretersInterface->errorReporter(), mParser);
+	mD2RobotModel->errorReporter(mInterpretersInterface->errorReporter());
 
-	robotModelType::robotModelTypeEnum const modelType = static_cast<robotModelType::robotModelTypeEnum>(SettingsManager::value("robotModel", "1").toInt());
+	robotModelType::robotModelTypeEnum const modelType = static_cast<robotModelType::robotModelTypeEnum>(SettingsManager::value("robotModel").toInt());
 	Tracer::debug(tracer::initialization, "Interpreter::init", "Going to set robot implementation, model type is " + DebugHelper::toString(modelType));
 	setRobotImplementation(modelType);
 }
@@ -280,7 +282,7 @@ void Interpreter::setRobotImplementation(details::robotImplementations::Abstract
 
 void Interpreter::runTimer()
 {
-	mTimer->start(1000);
+	mTimer->start(5);
 	connect(mTimer, SIGNAL(timeout()), this, SLOT(readSensorValues()));
 	if (mRobotModel->sensor(inputPort::port1)) {
 		connect(mRobotModel->sensor(inputPort::port1)->sensorImpl(), SIGNAL(response(int)), this, SLOT(responseSlot1(int)));
