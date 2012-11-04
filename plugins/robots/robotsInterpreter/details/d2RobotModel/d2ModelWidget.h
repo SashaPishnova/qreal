@@ -10,6 +10,7 @@
 
 #include "lineItem.h"
 #include "stylusItem.h"
+#include "ellipseItem.h"
 #include "worldModel.h"
 #include "robotModelInterface.h"
 #include "d2ModelScene.h"
@@ -33,7 +34,9 @@ enum DrawingAction {
 	wall,
 	line,
 	stylus,
-	port
+	port,
+	ellipse,
+	noneWordLoad
 };
 }
 
@@ -72,6 +75,10 @@ public:
 	void hideRotaters();
 public slots:
 	void update();
+	void worldWallDragged(QPainterPath const &shape, QPointF const& oldPos);
+
+signals:
+	void robotWasIntersectedByWall(bool isNeedStop, QPointF const& oldPos);
 
 protected:
 	void changeEvent(QEvent *e);
@@ -80,10 +87,11 @@ private slots:
 	void addWall(bool on);
 	void addLine(bool on);
 	void addStylus(bool on);
+	void addEllipse(bool on);
 	void clearScene();
 	void resetButtons();
 
-	void mouseClicked(QGraphicsSceneMouseEvent *mouseEvent);
+	void mousePressed(QGraphicsSceneMouseEvent *mouseEvent);
 	void mouseReleased(QGraphicsSceneMouseEvent *mouseEvent);
 	void mouseMoved(QGraphicsSceneMouseEvent *mouseEvent);
 
@@ -104,6 +112,9 @@ private slots:
 
 signals:
 	void d2WasClosed();
+
+protected:
+	virtual void keyPressEvent(QKeyEvent *event);
 
 private:
 	void connectUiButtons();
@@ -133,6 +144,7 @@ private:
 	void reshapeWall(QGraphicsSceneMouseEvent *event);
 	void reshapeLine(QGraphicsSceneMouseEvent *event);
 	void reshapeStylus(QGraphicsSceneMouseEvent *event);
+	void reshapeEllipse(QGraphicsSceneMouseEvent *event);
 
 	void setValuePenColorComboBox(QColor penColor);
 	void setValuePenWidthSpinBox(int width);
@@ -169,9 +181,10 @@ private:
 	int mMouseClicksCount;
 
 	/** @brief Temporary wall that's being created. When it's complete, it's added to world model */
-	WallItem* mCurrentWall;
-	LineItem* mCurrentLine;
-	StylusItem* mCurrentStylus;
+	WallItem *mCurrentWall;
+	LineItem *mCurrentLine;
+	StylusItem *mCurrentStylus;
+	EllipseItem *mCurrentEllipse;
 
 	/** @brief Latest value of angle for drawing robot image */
 	qreal mAngleOld;

@@ -5,6 +5,7 @@
 
 #include "../tracer.h"
 #include "stylusItem.h"
+#include "ellipseItem.h"
 
 using namespace qReal::interpreters::robots::details::d2Model;
 
@@ -143,18 +144,30 @@ void WorldModel::deserialize(QDomElement const &element)
 		return;
 	}
 
-	QDomNodeList walls = element.elementsByTagName("wall");
-	for (int i = 0; i < walls.count(); ++i) {
-		QDomElement const wallNode = walls.at(i).toElement();
+	QDomNodeList allWalls = element.elementsByTagName("walls");
+	for (int i = 0; i < allWalls.count(); ++i) {
+		QDomElement const wallsNode = allWalls.at(i).toElement();
 
-		WallItem *wall = new WallItem(QPointF(0, 0), QPointF(0, 0));
-		wall->deserialize(wallNode);
-		mWalls.append(wall);
+		QDomNodeList walls = wallsNode.elementsByTagName("wall");
+		for (int i = 0; i < walls.count(); ++i) {
+			QDomElement const wallNode = walls.at(i).toElement();
+			WallItem *wall = new WallItem(QPointF(0, 0), QPointF(0, 0));
+			wall->deserialize(wallNode);
+			mWalls.append(wall);
+		}
 	}
 
 	QDomNodeList colorFields = element.elementsByTagName("colorFields");
 	for (int i = 0; i < colorFields.count(); ++i) {
 		QDomElement const colorFieldNode = colorFields.at(i).toElement();
+
+		QDomNodeList ellipses = colorFieldNode.elementsByTagName("ellipse");
+		for (int i = 0; i < ellipses.count(); ++i) {
+			QDomElement const ellipseNode = ellipses.at(i).toElement();
+			EllipseItem* ellipseItem = new EllipseItem(QPointF(0, 0), QPointF(0, 0));
+			ellipseItem->deserialize(ellipseNode);
+			mColorFields.append(ellipseItem);
+		}
 
 		QDomNodeList lines = colorFieldNode.elementsByTagName("line");
 		for (int i = 0; i < lines.count(); ++i) {
