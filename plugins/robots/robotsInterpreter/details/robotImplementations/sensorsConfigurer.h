@@ -39,6 +39,7 @@ private:
 	int mSensorsToConfigure;
 
 	void reconfigureSensors();
+	void needToReconfigure();
 };
 
 }

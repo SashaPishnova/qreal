@@ -139,7 +139,6 @@ QPair<QPoint, qreal> D2RobotModel::countPositionAndDirection(inputPort::InputPor
 
 int D2RobotModel::readTouchSensor(inputPort::InputPortEnum const port)
 {
-	qDebug() << "D2RobotModel::readTouchSensor";
 	if (!sensorExist(port)) {
 		mErrorReporter->addError(QObject::tr("Touch sensor is used in this diagram,"\
 				"but it isn't added on robot model. Please, add sensor."));
@@ -147,7 +146,8 @@ int D2RobotModel::readTouchSensor(inputPort::InputPortEnum const port)
 		return 0;
 	}
 
-	if (mSensorsConfiguration.type(port) != (sensorType::touchBoolean && sensorType::touchRaw)) {
+	int type = mSensorsConfiguration.type(port);
+	if (type != sensorType::touchBoolean && type != sensorType::touchRaw) {
 		mErrorReporter->addError(QObject::tr("Touch sensor is not configured on this port"));
 		emit errorInSensorConfiguration();
 		return 0;
@@ -193,8 +193,9 @@ int D2RobotModel::readColorSensor(inputPort::InputPortEnum const port)
 		return 0;
 	}
 
-	if (mSensorsConfiguration.type(port) != (sensorType::colorBlue && sensorType::colorFull && sensorType::colorGreen
-				&& sensorType::colorNone && sensorType::colorRed)) {
+	int type = mSensorsConfiguration.type(port);
+	if (type != sensorType::colorFull && type != sensorType::colorBlue && type != sensorType::colorGreen
+			&& type != sensorType::colorNone && type != sensorType::colorRed){
 		mErrorReporter->addError(QObject::tr("Color sensor is not configured on this port"));
 		emit errorInSensorConfiguration();
 		return 0;

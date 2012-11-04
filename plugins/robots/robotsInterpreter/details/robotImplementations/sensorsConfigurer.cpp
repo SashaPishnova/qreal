@@ -1,6 +1,7 @@
 #include "sensorsConfigurer.h"
-
+#include <QtCore/QDebug>
 #include "../tracer.h"
+#include "../sensorConstants.h"
 
 using namespace qReal::interpreters::robots;
 using namespace qReal::interpreters::robots::details;
@@ -46,6 +47,7 @@ void SensorsConfigurer::lockConfiguring()
 {
 	Tracer::debug(tracer::initialization, "SensorsConfigurer::lockConfiguring", "Sensor configuration locked, all configuration requests are queued.");
 	mLocked = true;
+	//needToReconfigure();
 }
 
 void SensorsConfigurer::unlockConfiguring()
@@ -105,5 +107,19 @@ void SensorsConfigurer::sensorConfiguredSlot()
 	emit sensorConfigured(sensor);
 	if (mSensorsToConfigure == 0) {
 		emit allSensorsConfigured();
+	}
+}
+
+void SensorsConfigurer::needToReconfigure()
+{
+	foreach (sensorImplementations::AbstractSensorImplementation *sensor, mConfiguredSensors) {
+		if (sensor != NULL) {
+			if (sensor->type() == sensorType::colorFull || sensor->type() == sensorType::colorBlue
+					|| sensor->type() == sensorType::colorGreen || sensor->type() == sensorType::colorRed
+					|| sensor->type() == sensorType::light || sensor->type() == sensorType::colorNone) {
+				delete sensor;
+				sensor = NULL;
+			}
+		}
 	}
 }
